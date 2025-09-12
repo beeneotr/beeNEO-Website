@@ -3,158 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="beeNEO, Lvkon ticari araç elektrifikasyon çözümleri, NEObist akıllı bisiklet dönüşüm kiti ve sureNEO profesyonel mühendislik eğitimleri ile geleceğin teknolojilerini sunar.">
-    <meta name="keywords" content="beeNEO, Lvkon, NEObist, sureNEO, elektrifikasyon, e-mobilite, ticari araç, bisiklet dönüşüm kiti, mühendislik eğitimleri">
-    <title>beeNEO: Geleceğin Teknolojileri | Lvkon, NEObist, sureNEO</title>
+    <title>beeNEO</title>
     
-    <!-- Tailwind CSS -->
+    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
+
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
-    <link rel="icon" href="faviconicon.png" type="image/png">
-    
-    <link rel="apple-touch-icon" href="faviconiconmac.png">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 
     <style>
-
-/* Mobile menu styles */
-  #mobile-menu {
-    transition: transform 0.3s ease-in-out;
-  }
-  
-  /* Prevent body scrolling when menu is open */
-  body.menu-open {
-    overflow: hidden;
-  }
-  
-  /* Mobile dropdown styles */
-  .mobile-dropdown-content {
-    display: none;
-    padding-left: 20px;
-  }
-  
-  .mobile-dropdown-content a {
-    display: block;
-    padding: 10px 0;
-    color: white;
-    text-decoration: none;
-  }
-  
-  .mobile-dropdown-content .submenu {
-    padding-left: 20px;
-  }
-  
-  .mobile-dropdown-content .submenu a {
-    font-size: 0.9rem;
-    color: #ddd;
-  }
-
-/* Improved Dropdown Styles */
-  .dropdown {
-    position: relative;
-    display: inline-block;
-  }
-  
-  .dropdown-content {
-    position: absolute;
-    background-color: white;
-    min-width: 280px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 100;
-    border-radius: 8px;
-    overflow: hidden;
-    top: 100%;
-    left: 0;
-    margin-top: 12px;
-    transition: all 0.3s ease;
-  }
-  
-  .dropdown-content a {
-    color: var(--dark-gray);
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-    transition: background-color 0.2s;
-    font-size: 14px;
-    border-left: 3px solid transparent;
-  }
-  
-  .dropdown-content a:hover {
-    background-color: var(--light-gray);
-    border-left-color: var(--primary-pink);
-  }
-  
-  .dropdown-content .submenu {
-    padding-left: 20px;
-  }
-  
-  .dropdown-content .submenu a {
-    font-size: 13px;
-    color: #555;
-  }
-  
-  .dropdown-content .submenu a:hover {
-    color: var(--primary-pink);
-  }
-
-
-        /* CSS Değişkenleri ve Temel Stiller */
         :root {
             --primary-blue: #003366;
             --primary-pink: #E30044;
             --light-gray: #f8f9fa;
             --dark-gray: #1a202c;
         }
-        html { 
-            scroll-behavior: smooth; 
-        }
-        body { 
-            font-family: 'Inter', sans-serif; 
+
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', sans-serif;
             color: var(--dark-gray);
             background-color: #fff;
         }
-        
-        /* Tema Renkleri için Yardımcı Sınıflar */
+
         .bg-primary-blue { background-color: var(--primary-blue); }
         .text-primary-blue { color: var(--primary-blue); }
         .text-primary-pink { color: var(--primary-pink); }
-        .border-primary-pink { border-color: var(--primary-pink); }
         .bg-primary-pink { background-color: var(--primary-pink); }
-        
-        /* Buton Stilleri ve Hover Efektleri */
-        .cta-button-pink { 
-            background-color: var(--primary-pink); 
-            transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s; 
+
+        .cta-button-pink {
+            background-color: var(--primary-pink);
+            color: #fff;
+            font-weight: 700;
+            padding: .75rem 1.5rem;
+            border-radius: .5rem;
+            display: inline-block;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+            transition: background-color .3s, transform .3s, box-shadow .3s;
         }
-        .cta-button-pink:hover { 
-            background-color: #c00039; 
-            transform: translateY(-3px); 
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-        .cta-button-outline { 
-            border-color: var(--primary-pink); 
-            color: var(--primary-pink); 
-            transition: background-color 0.3s, color 0.3s, transform 0.3s, box-shadow 0.3s; 
-        }
-        .cta-button-outline:hover { 
-            background-color: var(--primary-pink); 
-            color: white; 
+        .cta-button-pink:hover {
+            background-color: #c00039;
             transform: translateY(-3px);
-            box-shadow: 0 4px 12px rgba(227,0,68,0.3);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.18);
         }
-        
+
+        .swoosh-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        .swoosh-bg::before {
+            content: '';
+            position: absolute;
+            top: -20%;
+            left: -10%;
+            width: 120%;
+            height: 90%;
+            background: #f0f8ff; /* Light blue instead of green */
+            border-radius: 0 0 50% 50%;
+            z-index: -1;
+        }
+
         /* Hero (Ana Başlık) Alanı Stili */
         .hero { 
-            position: relative; 
-            overflow: hidden; 
+        position: relative; 
+        overflow: hidden; 
         }
+        
         .hero::before { 
             content: ''; 
             position: absolute; 
@@ -168,179 +92,219 @@
             z-index: 2; 
         }
 
-        /* Sayfa Kaydırma Animasyonları */
-        .fade-in-section {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        /* Wide Mega Menu Styles */
+        .mega-menu-wrapper {
+            position: absolute;
+            left: 0;
+            right: 0;
+            width: 100%;
+            display: none;
+            z-index: 100;
+            padding-top: 1rem;
         }
-        .fade-in-section.is-visible {
-            opacity: 1;
-            transform: translateY(0);
+        .mega-menu-wrapper.active { display: block; }
+        .mega-menu {
+            background: white;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border-top: 1px solid #e5e7eb;
+            padding: 2.5rem 0;
+            width: 100%;
         }
-        
-        /* Lvkon Ürünleri Sekme Stilleri */
+        .mega-menu-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2.5rem;
+        }
+        .mega-menu-column { display: flex; flex-direction: column; }
+        .mega-menu-column h3 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--primary-pink);
+        }
+        .mega-menu-column ul { list-style: none; padding: 0; margin: 0; }
+        .mega-menu-column ul li { margin-bottom: 0.875rem; }
+        .mega-menu-column ul li a {
+            color: var(--dark-gray);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 0;
+            font-size: 0.95rem;
+        }
+        .mega-menu-column ul li a:hover { color: var(--primary-pink); transform: translateX(5px); }
+        .mega-menu-column ul li a i { margin-right: 0.75rem; font-size: 1rem; width: 20px; text-align: center; }
+        .mega-menu-column .submenu { padding-left: 1.75rem; margin-top: 0.5rem; }
+        .mega-menu-column .submenu li { margin-bottom: 0.625rem; font-size: 0.9rem; }
+        .mega-menu-column .submenu li a { color: #64748b; font-weight: 500; }
+        .mega-menu-column .submenu li a:hover { color: var(--primary-pink); }
+
+        /* Mobile helpers */
+        #mobile-menu { transition: transform 0.3s ease-in-out; }
+        body.menu-open { overflow: hidden; }
+
+        .mobile-dropdown-content { display: none; padding-left: 20px; }
+        .mobile-dropdown-content a { display: block; padding: 10px 0; color: white; text-decoration: none; }
+        .mobile-dropdown-content .submenu { padding-left: 20px; }
+        .mobile-dropdown-content .submenu a { font-size: 0.9rem; color: #ddd; }
+
+
+        /* Lvkon tabs: styling + visibility */
         .tab-button {
-            transition: all 0.3s;
-            border-bottom: 3px solid transparent;
+        transition: all 0.3s;
+        border-bottom: 3px solid transparent;
         }
         .tab-button.active {
-            color: var(--primary-pink);
-            border-bottom-color: var(--primary-pink);
+        color: var(--primary-pink);
+        border-bottom-color: var(--primary-pink);
         }
-        .tab-content {
-            display: none;
-        }
-        .tab-content.active {
-            display: block;
-        }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+
+
     </style>
 </head>
+<body class="bg-white min-h-screen flex flex-col">
 
-<body class="bg-white">
-
-    <!-- Header (Üst Menü) -->
-
-<!-- Header (Üst Menü) -->
-<header id="header" class="bg-primary-blue/5 py-4 px-6 md:px-10 flex justify-between items-center sticky top-0 z-50 shadow-lg backdrop-blur-sm transition-all duration-300">
-  <a href="#home" class="text-3xl font-extrabold tracking-wider text-black flex items-center gap-2">
-    <img src="beeneologo.png" alt="beeNEO Logo" class="h-12 w-auto" style="object-fit:contain;">
-  </a>
-  <nav class="hidden md:flex items-center space-x-6 lg:space-x-8">
-    <a href="#home" class="font-semibold text-black hover:text-primary-pink transition-colors duration-300">Ana Sayfa</a>
-    
-    <!-- Çözümleri Dropdown -->
-    <div class="dropdown group" onmouseenter="showDropdown()" onmouseleave="hideDropdown()">
-      <button class="font-semibold text-black hover:text-primary-pink transition-colors duration-300 flex items-center">
-        Çözümlerimiz <i class="fas fa-chevron-down ml-1 text-xs"></i>
-      </button>
-      <div id="solutions-dropdown" class="dropdown-content opacity-0 invisible transition-all duration-300 transform -translate-y-2 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0">
-        <!-- Mobilite -->
-        <div class="font-medium px-4 pt-4 pb-2 text-primary-blue flex items-center">
-          <i class="fas fa-car-side mr-2"></i> Mobilite
-        </div>
-        <div class="submenu">
-          <!-- Powertrain -->
-          <div class="font-medium px-4 pt-2 pb-1 text-gray-700">Powertrain</div>
-          <a href="https://lvkon.beeneo.com/%C3%BCr%C3%BCnlerimiz/g%C3%BC%C3%A7-aktarma-%C3%BCniteleri-drive-assembly" class="transition-colors duration-200 hover:bg-light-gray">Drive Assembly</a>
-          <a href="https://lvkon.beeneo.com/%C3%BCr%C3%BCnlerimiz/elektrikli-tahrik-aks%C4%B1-e-aks" class="transition-colors duration-200 hover:bg-light-gray">E-Axle</a>
-          <a href="https://lvkon.beeneo.com/%C3%BCr%C3%BCnlerimiz/g%C3%BC%C3%A7-aktarma-%C3%BCniteleri-drive-assembly" class="transition-colors duration-200 hover:bg-light-gray">Drive Motor</a>
-          <a href="https://lvkon.beeneo.com/%C3%BCr%C3%BCnlerimiz/%C5%9Fanz%C4%B1man-transmission" class="transition-colors duration-200 hover:bg-light-gray">Transmission</a>
-          
-          <!-- e-bike -->
-          <div class="font-medium px-4 pt-2 pb-1 text-gray-700">e-bike</div>
-          <a href="#neobist" class="transition-colors duration-200 hover:bg-light-gray">NEObist Dönüşüm Kiti</a>
-        </div>
-        
-        <!-- Eğitim -->
-        <div class="font-medium px-4 pt-4 pb-2 text-primary-blue flex items-center">
-          <i class="fas fa-graduation-cap mr-2"></i> Eğitim
-        </div>
-        <div class="submenu">
-          <!-- sureNEO -->
-          <div class="font-medium px-4 pt-2 pb-1 text-gray-700">sureNEO</div>
-          <a href="#training" class="transition-colors duration-200 hover:bg-light-gray">Profesyonel Mühendislik Eğitimleri</a>
-          
-          <!-- oOreNEO -->
-          <div class="font-medium px-4 pt-2 pb-1 text-gray-700">oOreNEO</div>
-          <a href="https://www.ooreneo.com/" class="transition-colors duration-200 hover:bg-light-gray">Online Eğitim Platformu</a>
-        </div>
-      </div>
-    </div>
-    
-    <a href="#about" class="font-semibold text-black hover:text-primary-pink transition-colors duration-300">Hakkımızda</a>
-    <a href="#contact" class="font-semibold text-black hover:text-primary-pink transition-colors duration-300">İletişim</a>
-    <!-- Shop button -->
-    <a href="loads/" class="cta-button-pink text-white font-bold py-2 px-5 rounded-lg shadow-lg">
-      Shop
-    </a>
-  </nav>
-  <button id="mobile-menu-button" class="md:hidden text-2xl text-black z-50">
-    <i class="fas fa-bars" id="menu-icon"></i>
-  </button>
-</header>
-
-<!-- Mobile Menu -->
-<div id="mobile-menu" class="hidden md:hidden bg-primary-blue text-white fixed top-0 left-0 w-full h-full z-40 pt-24">
-  <button id="mobile-close-button" class="absolute top-6 right-6 text-2xl text-white z-50">
-    <i class="fas fa-times"></i>
-  </button>
-  <nav class="flex flex-col items-center justify-center h-full space-y-8 text-xl">
-    <a href="#home" class="mobile-nav-link font-semibold" onclick="closeMobileMenu()">Ana Sayfa</a>
-    
-    <!-- Mobile Çözümleri Dropdown -->
-    <div class="w-full text-center">
-      <a href="javascript:void(0)" class="font-semibold flex items-center justify-center" onclick="toggleMobileDropdown('solutions-mobile-dropdown'); event.stopPropagation();">
-  Çözümlerimiz <i class="fas fa-chevron-down ml-2 text-sm"></i>
-</a>
-      <div id="solutions-mobile-dropdown" class="mobile-dropdown-content">
-        <!-- Mobilite -->
-        <a href="javascript:void(0)" onclick="toggleMobileDropdown('mobility-mobile-dropdown')" class="flex items-center justify-between">
-          <span><i class="fas fa-car-side mr-2"></i> Mobilite</span>
-          <i class="fas fa-chevron-down text-xs"></i>
+    <!-- Header -->
+    <header id="header" class="relative bg-primary-blue/5 py-4 px-6 md:px-10 flex justify-between items-center sticky top-0 z-50 shadow-lg backdrop-blur-sm transition-all duration-300">
+        <a href="../index.html#home" class="text-3xl font-extrabold tracking-wider text-black flex items-center gap-2">
+            <img src="images/beeneologo.png" alt="beeNEO Logo" class="h-12 w-auto" style="object-fit:contain;">
         </a>
-        <div id="mobility-mobile-dropdown" class="mobile-dropdown-content">
-          <!-- Powertrain -->
-          <a href="javascript:void(0)" onclick="toggleMobileDropdown('powertrain-mobile-dropdown')" class="flex items-center justify-between">
-            <span>Powertrain</span>
-            <i class="fas fa-chevron-down text-xs"></i>
-          </a>
-          <div id="powertrain-mobile-dropdown" class="mobile-dropdown-content">
-            <a href="https://lvkon.beeneo.com/%C3%BCr%C3%BCnlerimiz/g%C3%BC%C3%A7-aktarma-%C3%BCniteleri-drive-assembly" onclick="closeMobileMenu()">Drive Assembly</a>
-            <a href="https://lvkon.beeneo.com/%C3%BCr%C3%BCnlerimiz/elektrikli-tahrik-aks%C4%B1-e-aks" onclick="closeMobileMenu()">E-Axle</a>
-            <a href="https://lvkon.beeneo.com/%C3%BCr%C3%BCnlerimiz/g%C3%BC%C3%A7-aktarma-%C3%BCniteleri-drive-assembly" onclick="closeMobileMenu()">Drive Motor</a>
-            <a href="https://lvkon.beeneo.com/%C3%BCr%C3%BCnlerimiz/%C5%9Fanz%C4%B1man-transmission" onclick="closeMobileMenu()">Transmission</a>
 
-          </div>
-          
-          <!-- e-bike -->
-          <a href="javascript:void(0)" onclick="toggleMobileDropdown('ebike-mobile-dropdown')" class="flex items-center justify-between">
-            <span>e-bike</span>
-            <i class="fas fa-chevron-down text-xs"></i>
-          </a>
-          <div id="ebike-mobile-dropdown" class="mobile-dropdown-content">
-            <a href="#neobist" onclick="closeMobileMenu()">NEObist Dönüşüm Kiti</a>
+        <!-- Desktop Nav -->
+        <nav class="hidden md:flex items-center space-x-6 lg:space-x-8">
+            <a href="../index.html#home" class="font-semibold text-black hover:text-primary-pink transition-colors duration-300">Ana Sayfa</a>
+
+            <!-- Mega Menu trigger -->
+            <div class="relative group" onmouseenter="showMegaMenu()" onmouseleave="hideMegaMenu()">
+              <button class="font-semibold text-black hover:text-primary-pink transition-colors duration-300 flex items-center">
+                Çözümlerimiz <i class="fas fa-chevron-down ml-1 text-xs"></i>
+              </button>
+            </div>
+
+            <a href="../index.html#about" class="font-semibold text-black hover:text-primary-pink transition-colors duration-300">Hakkımızda</a>
+            <a href="../index.html#contact" class="font-semibold text-black hover:text-primary-pink transition-colors duration-300">İletişim</a>
+            <a href="index.html" class="cta-button-pink text-white font-bold py-2 px-5 rounded-lg shadow-lg">Shop</a>
+        </nav>
+
+        <!-- Mobile hamburger -->
+        <button id="mobile-menu-button" class="md:hidden text-2xl text-black z-50">
+            <i class="fas fa-bars" id="menu-icon"></i>
+        </button>
+
+        <!-- Full-width Mega Menu (inside header, but outside <nav>) -->
+        <div id="mega-menu-wrapper" class="mega-menu-wrapper top-full"
+             onmouseenter="showMegaMenu()" onmouseleave="hideMegaMenu()">
+          <div class="mega-menu">
+            <div class="mega-menu-container">
+              <!-- Mobilite Column -->
+              <div class="mega-menu-column">
+                <h3><i class="fas fa-car-side mr-2"></i> Mobilite</h3>
+                <ul>
+                  <li><a href="energy/energy.html"><i class="fas fa-bolt"></i> Enerji Çözümleri</a></li>
+                  <li><a href="lvkon/lvkon.html"><i class="fas fa-cogs"></i> Güç Aktarma Sistemleri</a></li>
+                  <li><a href="#"><i class="fas fa-bicycle"></i> E-Bisiklet Dönüşüm Kitleri</a></li>
+                </ul>
+              </div>
+
+              <!-- Mühendislik Column -->
+              <div class="mega-menu-column">
+                <h3><i class="fas fa-cogs mr-2"></i> Mühendislik</h3>
+                <ul>
+                  <li>
+                    <a href="engineering/engineering.html"><i class="fas fa-wrench"></i> Mühendislik Çözümleri</a>
+                    <ul class="submenu">
+                      <li><a href="engineering/engineering.html">Sistem Mühendisliği & Mimari</a></li>
+                      <li><a href="engineering/engineering.html">Gömülü Sistemler</a></li>
+                    </ul>
+                  </li>
+                  <li><a href="engineering/engineering.html"><i class="fas fa-vial"></i> Test & Doğrulama (V&V)</a></li>
+                  <li><a href="engineering/engineering.html"><i class="fas fa-chart-line"></i> Stratejik Danışmanlık</a></li>
+                  <li><a href="engineering/engineering.html"><i class="fas fa-industry"></i> Prototip ve Üretim</a></li>
+                </ul>
+              </div>
+
+              <!-- Eğitim Column -->
+              <div class="mega-menu-column">
+                <h3><i class="fas fa-graduation-cap mr-2"></i> Eğitim</h3>
+                <ul>
+                  <li><a href="https://ooreneo.com"><i class="fas fa-robot"></i> oOreNEO | FeTeMM ve Robotik</a></li>
+                  <li><a href="#"><i class="fas fa-book-open"></i> sureNEO | Profesyonel Eğitimler</a></li>
+                </ul>
+              </div>
+
+              <!-- Yazılım Araçları Column -->
+              <div class="mega-menu-column">
+                <h3><i class="fas fa-laptop-code mr-2"></i> Yazılım Araçları</h3>
+                <ul>
+                  <li>
+                    <a href="wshare/wondershare.html"><i class="fas fa-puzzle-piece"></i> Wondershare</a>
+                    <ul class="submenu">
+                      <li><a href="wshare/wondershare.html">PDF Çözümleri</a></li>
+                      <li><a href="wshare/wondershare.html">Video Yaratıcılığı</a></li>
+                      <li><a href="wshare/wondershare.html">Yardımcı Programlar</a></li>
+                      <li><a href="wshare/wondershare.html">Şema ve Grafikler</a></li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+
+            </div>
           </div>
         </div>
-        
-        <!-- Eğitim -->
-        <a href="javascript:void(0)" onclick="toggleMobileDropdown('education-mobile-dropdown')" class="flex items-center justify-between">
-          <span><i class="fas fa-graduation-cap mr-2"></i> Eğitim</span>
-          <i class="fas fa-chevron-down text-xs"></i>
-        </a>
-        <div id="education-mobile-dropdown" class="mobile-dropdown-content">
-          <!-- sureNEO -->
-          <a href="javascript:void(0)" onclick="toggleMobileDropdown('sureneo-mobile-dropdown')" class="flex items-center justify-between">
-            <span>sureNEO</span>
-            <i class="fas fa-chevron-down text-xs"></i>
-          </a>
-          <div id="sureneo-mobile-dropdown" class="mobile-dropdown-content">
-            <a href="#training" onclick="closeMobileMenu()">Profesyonel Mühendislik Eğitimleri</a>
-          </div>
-          
-          <!-- oOreNEO -->
-          <a href="javascript:void(0)" onclick="toggleMobileDropdown('ooreneo-mobile-dropdown')" class="flex items-center justify-between">
-            <span>oOreNEO</span>
-            <i class="fas fa-chevron-down text-xs"></i>
-          </a>
-          <div id="ooreneo-mobile-dropdown" class="mobile-dropdown-content">
-            <a href="https://www.ooreneo.com/" onclick="closeMobileMenu()" target="_blank">Online Eğitim Platformu</a>
-          </div>
+    </header>
+
+    <nav id="mobile-menu" class="fixed top-0 left-0 w-full h-full bg-primary-blue transform -translate-x-full transition-transform duration-300 z-40 p-6 md:hidden">
+        <div class="flex justify-end mb-4">
+            <button id="mobile-close-button" class="text-white text-3xl">&times;</button>
         </div>
-      </div>
-    </div>
+        <div class="flex flex-col space-y-4 text-center text-white">
+            <a href="../index.html#home" class="mobile-nav-link text-2xl font-semibold hover:text-primary-pink transition-colors">Ana Sayfa</a>
+            
+                    <div class="relative">
+                <button onclick="toggleMobileDropdown('cozumler-dropdown')" class="mobile-nav-link text-2xl font-semibold hover:text-primary-pink transition-colors flex items-center justify-center w-full" data-toggle="dropdown">
+                    Çözümlerimiz <i class="fas fa-chevron-down ml-2 text-sm"></i>
+                </button>
+                <div id="cozumler-dropdown" class="mobile-dropdown-content mt-2 text-left">
+                    <div class="pl-4">
+                        <h4 class="font-bold text-lg text-primary-pink">Mobilite</h4>
+                        <a href="#" class="block hover:text-primary-pink">Enerji Çözümleri</a>
+                        <a href="lvkon/lvkon.html" class="block hover:text-primary-pink">Güç Aktarma Sistemleri</a>
+                        <a href="#" class="block hover:text-primary-pink">E-Bisiklet Dönüşüm Kitleri</a>
+                    </div>
+                    <div class="mt-4 pl-4">
+                        <h4 class="font-bold text-lg text-primary-pink">Mühendislik</h4>
+                        <a href="#" class="block hover:text-primary-pink">Mühendislik Çözümleri</a>
+                        <a href="#" class="block hover:text-primary-pink">Test & Doğrulama (V&V)</a>
+                        <a href="#" class="block hover:text-primary-pink">Stratejik Danışmanlık</a>
+                        <a href="#" class="block hover:text-primary-pink">Prototip ve Üretim</a>
+                    </div>
+                    <div class="mt-4 pl-4">
+                        <h4 class="font-bold text-lg text-primary-pink">Eğitim</h4>
+                        <a href="https://ooreneo.com" class="block hover:text-primary-pink">oOreNEO | FeTeMM ve Robotik</a>
+                        <a href="#" class="block hover:text-primary-pink">sureNEO | Profesyonel Eğitimler</a>
+                    </div>
+                    <div class="mt-4 pl-4">
+                        <h4 class="font-bold text-lg text-primary-pink">Yazılım Araçları</h4>
+                        <a href="wshare/wondershare.html" class="block hover:text-primary-pink">Wondershare</a>
+                    </div>
+                </div>
+            </div>
     
-    <a href="#about" class="mobile-nav-link font-semibold" onclick="closeMobileMenu()">Hakkımızda</a>
-    <a href="#contact" class="mobile-nav-link font-semibold" onclick="closeMobileMenu()">İletişim</a>
-
-    <!--Solid Shop button for mobile -->
-    <a href="loads/" class="mobile-nav-link font-semibold bg-primary-pink text-white px-6 py-3 rounded-lg shadow-lg" onclick="closeMobileMenu()">
-      Shop
-    </a>
-  </nav>
-</div>
-
-
+            <a href="../index.html#about" class="mobile-nav-link text-2xl font-semibold hover:text-primary-pink transition-colors">Hakkımızda</a>
+            <a href="../index.html#contact" class="mobile-nav-link text-2xl font-semibold hover:text-primary-pink transition-colors">İletişim</a>
+            <a href="index.html" class="mobile-nav-link cta-button-pink text-white font-bold py-3 px-8 rounded-lg shadow-lg">Shop</a>
+        </div>
+    </nav>
+    
 
 
     <main>
@@ -364,7 +328,7 @@
                 <div class="grid md:grid-cols-3 gap-8">
                     <!-- Lvkon Kartı -->
                     <div class="flex flex-col bg-white rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 overflow-hidden">
-                        <img src="lvkonlogo.png" alt="Lvkon Ticari Araç Logo" class="w-full h-48 object-contain p-8 bg-white">
+                        <img src="images/lvkonlogo.png" alt="Lvkon Ticari Araç Logo" class="w-full h-48 object-contain p-8 bg-white">
                         <div class="p-8 flex flex-col flex-grow">
                             <h3 class="text-2xl font-bold mb-2 text-primary-blue">Lvkon Ticari Araç Çözümleri</h3>
                             <p class="text-gray-600 mb-6 flex-grow">Ticari araçlar için küresel lider Lvkon'un yüksek verimli elektrikli ve hibrit güç aktarım sistemlerinin Türkiye'deki stratejik mühendislik ortağıyız.</p>
@@ -373,7 +337,7 @@
                     </div>
                     <!-- NEObist Kartı -->
                     <div class="flex flex-col bg-white rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 overflow-hidden">
-                        <img src="neobistlogo.png" alt="NEObist Logo" class="w-full h-48 object-contain p-8 bg-white">
+                        <img src="images/neobistlogo.png" alt="NEObist Logo" class="w-full h-48 object-contain p-8 bg-white">
                         <div class="p-8 flex flex-col flex-grow">
                             <h3 class="text-2xl font-bold mb-2 text-primary-blue">NEObist E-Bisiklet Dönüşüm Kiti</h3>
                             <p class="text-gray-600 mb-6 flex-grow">Patent başvurulu, hepsi bir arada akıllı dönüşüm kitimiz ile her bisikleti dakikalar içinde güçlü bir e-bisiklete dönüştürün. Şehir içi ulaşımda devrim yaratın.</p>
@@ -554,9 +518,15 @@
                                 </tbody>
                             </table>
                         </div>
+                        
                     </div>
                 </div>
+                <div class="flex justify-center">
+                    
+                    <a href="lvkon/lvkon.html" class="cta-button-pink text-white font-bold py-3 px-8 rounded-full text-lg shadow-lg inline-block mt-8">Daha Fazla Bilgi Alın</a>
+                </div>
             </div>
+            
         </section>
 
         <!-- NEObist Bölümü -->
@@ -566,7 +536,7 @@
                 <p class="text-center text-primary-pink font-semibold text-lg mb-12">Dakikalar İçinde Kolay Kurulum, Sınırsız Sürüş Keyfi</p>
                 <div class="grid md:grid-cols-2 gap-12 items-center">
                     <div>
-                        <img src="https://placehold.co/600/e2e8f0/334155?text=NEObist+Kit" alt="NEObist Dönüşüm Kiti" class="rounded-xl shadow-lg w-full">
+                        <img src="images/neobistlogo.png" alt="NEObist Logo" class="w-full h-48 object-contain p-8 bg-white" style="width: 800px; height: 800px;">
                     </div>
                     <div>
                         <h3 class="text-3xl font-bold text-primary-blue mb-6">Patent Başvurulu Hepsi Bir Arada Teknoloji</h3>
@@ -667,7 +637,7 @@
         </section>
     </main>
 
-    <!-- Footer (Alt Bilgi) -->
+    <!-- Footer -->
     <footer class="bg-primary-blue text-white py-8">
         <div class="container mx-auto px-6 text-center">
             <p>&copy; 2025 beeNEO | Tüm Hakları Saklıdır.</p>
@@ -680,244 +650,237 @@
     </footer>
 
     <script>
+        
 
 
-
-
-  let dropdownTimeout;
-  
-  function showDropdown() {
-    clearTimeout(dropdownTimeout);
-    document.getElementById('solutions-dropdown').classList.add('opacity-100', 'visible', 'translate-y-0');
-    document.getElementById('solutions-dropdown').classList.remove('opacity-0', 'invisible', '-translate-y-2');
-  }
-  
-  function hideDropdown() {
-    dropdownTimeout = setTimeout(() => {
-      document.getElementById('solutions-dropdown').classList.remove('opacity-100', 'visible', 'translate-y-0');
-      document.getElementById('solutions-dropdown').classList.add('opacity-0', 'invisible', '-translate-y-2');
-    }, 300); // 300ms delay before closing
-  }
-  
-  // Keep dropdown open when hovering over it
-  document.addEventListener('DOMContentLoaded', () => {
-    const dropdown = document.getElementById('solutions-dropdown');
-    if (dropdown) {
-      dropdown.addEventListener('mouseenter', () => {
-        clearTimeout(dropdownTimeout);
-      });
-      
-      dropdown.addEventListener('mouseleave', hideDropdown);
+   // Mega Menu functionality
+   let megaMenuTimeout;
+    function showMegaMenu() {
+        clearTimeout(megaMenuTimeout);
+        const megaMenuWrapper = document.getElementById('mega-menu-wrapper');
+        if (!megaMenuWrapper) return;
+        megaMenuWrapper.classList.add('active');
     }
-  });
-    document.addEventListener('DOMContentLoaded', () => {
-        // --- Mobil Menü İşlevselliği ---
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+    function hideMegaMenu() {
+        megaMenuTimeout = setTimeout(() => {
+            const megaMenuWrapper = document.getElementById('mega-menu-wrapper');
+            if (!megaMenuWrapper) return;
+            megaMenuWrapper.classList.remove('active');
+        }, 200);
+    }
 
-        mobileMenuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-
-        mobileNavLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.add('hidden');
-            });
-        });
-
-        // --- Kaydırma Animasyonları ---
-        const sections = document.querySelectorAll('.fade-in-section');
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.1
-        };
-
-        const observer = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('is-visible');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, observerOptions);
-
-        sections.forEach(section => {
-            observer.observe(section);
-        });
-
-        // --- Lvkon Ürün Sekmeleri İşlevselliği ---
-        const tabs = document.querySelectorAll('.tab-button');
-        const tabContents = document.querySelectorAll('.tab-content');
-
-        tabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                const target = document.getElementById(tab.dataset.tab);
-
-                tabs.forEach(t => t.classList.remove('active'));
-                tab.classList.add('active');
-
-                tabContents.forEach(c => c.classList.remove('active'));
-                target.classList.add('active');
-            });
-        });
-
-
-
-
-        // --- sureNEO Eğitim Bölümü İşlevselliği ---
-        const trainingCategorySelect = document.getElementById('training-category-select');
-        const trainingSubCategorySelect = document.getElementById('training-subcategory-select');
-        const trainingCoursesContainer = document.getElementById('training-courses-container');
-        const trainingPlaceholder = document.getElementById('training-placeholder');
-
-        const trainingData = {
-            "Kurumsal Yönetim": {
-                "Kalite Yönetimi": {
-                    description: 'ISO 9001 standardı temelinde, kuruluşunuzun kalite yönetim sistemini kurma, uygulama ve sürekli iyileştirme yetkinliklerini kazanın.',
-                    courses: [
-                        { topic: "ISO 9001:2015 Temel Eğitimi", iso: "ISO 9001", content: "Standardın maddeleri, terminoloji, KYS prensipleri.", level: "Başlangıç", structure: "Teorik + Vaka Analizi", duration: "2 gün" },
-                        { topic: "ISO 9001:2015 İç Tetkikçi", iso: "ISO 19011", content: "Tetkik planlama, yürütme, raporlama ve takip.", level: "Orta", structure: "Teorik + Uygulama", duration: "3 gün" },
-                        { topic: "Problem Çözme Teknikleri", iso: "N/A", content: "8D, Balık Kılçığı, 5 Neden Analizi.", level: "Tüm Seviyeler", structure: "Uygulamalı", duration: "1 gün" }
-                    ]
-                },
-                "Çevre ve İSG Yönetimi": {
-                    description: 'ISO 14001 ve ISO 45001 standartları ile çevresel etkileri yönetin ve güvenli bir çalışma ortamı oluşturun.',
-                    courses: [
-                        { topic: "ISO 14001:2015 ÇYS Temel", iso: "ISO 14001", content: "Çevre boyutları, yasal uyumluluk, performans değerlendirme.", level: "Başlangıç", structure: "Teorik", duration: "2 gün" },
-                        { topic: "ISO 45001:2018 İSGYS Temel", iso: "ISO 45001", content: "Risk ve fırsatlar, çalışan katılımı, acil durum hazırlığı.", level: "Başlangıç", structure: "Teorik", duration: "2 gün" },
-                        { topic: "Entegre Yönetim Sistemi İç Tetkikçi", iso: "ISO 19011", content: "9001, 14001, 45001 entegre tetkiki.", level: "İleri", structure: "Teorik + Uygulama", duration: "4 gün" }
-                    ]
-                },
-                "Risk Yönetimi": {
-                    description: 'ISO 31000 rehberliğinde kurumsal riskleri tanımlama, analiz etme ve etkili bir şekilde yönetme becerilerini geliştirin.',
-                    courses: [
-                        { topic: "ISO 31000 Kurumsal Risk Yönetimi", iso: "ISO 31000", content: "Risk yönetimi çerçevesi, süreci ve prensipleri.", level: "Orta", structure: "Teorik + Atölye", duration: "2 gün" }
-                    ]
-                }
-            },
-            "Teknik ve Mühendislik": {
-                "Proje Yönetimi": {
-                    description: 'PMI ve ISO 21502 standartlarına uygun olarak projeleri zamanında, bütçesinde ve kalitede tamamlama yetkinliği kazanın.',
-                    courses: [
-                        { topic: "Proje Yönetimi Temelleri", iso: "ISO 21502 / PMI", content: "Proje yaşam döngüsü, bilgi alanları, temel araçlar.", level: "Başlangıç", structure: "Teorik + Simülasyon", duration: "3 gün" },
-                        { topic: "İleri Ürün Kalite Planlaması (APQP)", iso: "AS9145", content: "Havacılık ve savunma sanayine özel APQP ve PPAP süreci.", level: "İleri", structure: "Uygulamalı", duration: "2 gün" }
-                    ]
-                },
-                "Sistem ve Yazılım Mühendisliği": {
-                    description: 'ISO 15288 ve ISO 12207 gibi standartlarla karmaşık sistem ve yazılım projelerinin yaşam döngüsünü yönetin.',
-                    courses: [
-                        { topic: "Sistem Yaşam Döngüsü Yönetimi", iso: "ISO 15288", content: "Sistem mühendisliği süreçleri, gereksinimden doğrulamaya.", level: "Orta", structure: "Teorik", duration: "3 gün" },
-                        { topic: "Yazılım Yaşam Döngüsü Yönetimi", iso: "ISO 12207", content: "Yazılım geliştirme, test ve bakım süreçleri.", level: "Orta", structure: "Teorik", duration: "3 gün" },
-                        { topic: "Konfigürasyon Yönetimi", iso: "ISO 10007", content: "Değişiklik kontrolü, temel çizgiler ve konfigürasyon denetimi.", level: "Orta", structure: "Teorik + Araç Tanıtımı", duration: "2 gün" }
-                    ]
-                },
-                "Savunma Sanayi Özel": {
-                    description: 'AS9100 ve AQAP gibi standartlarla havacılık, uzay ve savunma sanayinin yüksek kalite beklentilerini karşılayın.',
-                    courses: [
-                        { topic: "AS9100 (ASD) Temel Eğitimi", iso: "AS9100 Rev D", content: "Havacılık, uzay ve savunma için KYS gereklilikleri.", level: "Orta", structure: "Teorik", duration: "2 gün" },
-                        { topic: "AQAP 2110 Kalite Güvence", iso: "AQAP 2110", content: "NATO kalite güvence gereklilikleri ve uygulama.", level: "İleri", structure: "Teorik + Vaka Analizi", duration: "2 gün" },
-                        { topic: "Süreç FMEA (PFMEA)", iso: "AIAG/VDA", content: "Hata türleri ve etkileri analizi ile riskleri proaktif yönetme.", level: "Orta", structure: "Uygulamalı", duration: "2 gün" }
-                    ]
-                }
-            }
-        };
-
-        function populateTrainingCategories() {
-            trainingCategorySelect.innerHTML = '<option value="">Kurs Kategorisi Seçin</option>';
-            Object.keys(trainingData).forEach(category => {
-                const option = document.createElement('option');
-                option.value = category;
-                option.textContent = category;
-                trainingCategorySelect.appendChild(option);
-            });
-        }
-
-        function populateTrainingSubCategories() {
-            const selectedCategory = trainingCategorySelect.value;
-            trainingSubCategorySelect.innerHTML = '<option value="">Kurs Konusu Seçin</option>';
-            if (selectedCategory && trainingData[selectedCategory]) {
-                Object.keys(trainingData[selectedCategory]).forEach(subCategory => {
-                    const option = document.createElement('option');
-                    option.value = subCategory;
-                    option.textContent = subCategory;
-                    trainingSubCategorySelect.appendChild(option);
-                });
-            }
-            renderTrainingTable();
-        }
-
-        function renderTrainingTable() {
-            const selectedCategory = trainingCategorySelect.value;
-            const selectedSubCategory = trainingSubCategorySelect.value;
-            
-            if (selectedCategory && selectedSubCategory && trainingData[selectedCategory] && trainingData[selectedCategory][selectedSubCategory]) {
-                trainingPlaceholder.style.display = 'none';
-                const data = trainingData[selectedCategory][selectedSubCategory];
-                let tableHtml = `
-                    <div class="mb-6">
-                        <h4 class="text-2xl font-semibold text-primary-blue mb-2">${selectedSubCategory}</h4>
-                        <p class="text-md text-gray-600">${data.description}</p>
-                    </div>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-sm text-left">
-                            <thead class="bg-primary-blue text-white">
-                                <tr>
-                                    <th class="p-3 rounded-tl-lg">Kurs Adı</th>
-                                    <th class="p-3">Standart</th>
-                                    <th class="p-3">İçerik Özeti</th>
-                                    <th class="p-3">Seviye</th>
-                                    <th class="p-3">Yapı</th>
-                                    <th class="p-3 rounded-tr-lg">Süre</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                `;
-                data.courses.forEach(course => {
-                    tableHtml += `
-                        <tr class="border-b hover:bg-gray-50 transition-colors">
-                            <td class="p-3 font-semibold text-primary-blue">${course.topic}</td>
-                            <td class="p-3">${course.iso}</td>
-                            <td class="p-3 text-gray-600">${course.content}</td>
-                            <td class="p-3"><span class="px-2 py-1 text-xs font-semibold text-white ${course.level === 'Başlangıç' ? 'bg-green-500' : course.level === 'Orta' ? 'bg-yellow-500' : 'bg-red-500'} rounded-full">${course.level}</span></td>
-                            <td class="p-3 text-gray-600">${course.structure}</td>
-                            <td class="p-3 font-medium">${course.duration}</td>
-                        </tr>
-                    `;
-                });
-                tableHtml += '</tbody></table></div>';
-                trainingCoursesContainer.innerHTML = tableHtml;
-            } else {
-                trainingCoursesContainer.innerHTML = '';
-                if(trainingPlaceholder) trainingPlaceholder.style.display = 'flex';
-            }
-        }
-
-        // Olay dinleyicileri
-        trainingCategorySelect.addEventListener('change', populateTrainingSubCategories);
-        trainingSubCategorySelect.addEventListener('change', renderTrainingTable);
-
-        // Başlangıç durumu
-        populateTrainingCategories();
+    // Keep mega menu open when hovering over it
+    document.getElementById('mega-menu-wrapper')?.addEventListener('mouseenter', () => {
+        clearTimeout(megaMenuTimeout);
+    });
+    document.getElementById('mega-menu-wrapper')?.addEventListener('mouseleave', () => {
+        hideMegaMenu();
     });
 
+    // Mobile helpers
+    function toggleMobileDropdown(id) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.style.display = (el.style.display === 'block') ? 'none' : 'block';
+    }
+    
+    function closeMobileMenu() {
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenu?.classList.remove('translate-x-0');
+        mobileMenu?.classList.add('-translate-x-full');
+        document.body.classList.remove('menu-open');
+    }
 
+    // Mobile menu functionality
+    document.addEventListener('DOMContentLoaded', () => {
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const closeBtn = document.getElementById('mobile-close-button');
+        const mobileLinks = document.querySelectorAll('.mobile-nav-link');
 
-// ADD these functions inside your <script> (after DOMContentLoaded is fine)
-function toggleMobileDropdown(id) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  el.style.display = (el.style.display === 'block') ? 'none' : 'block';
-}
+        mobileMenuButton?.addEventListener('click', () => {
+    mobileMenu?.classList.toggle('translate-x-0');
+    mobileMenu?.classList.toggle('-translate-x-full');
+    document.body.classList.toggle('menu-open');
+});
 
-function closeMobileMenu() {
-  const mobileMenu = document.getElementById('mobile-menu');
-  if (mobileMenu) mobileMenu.classList.add('hidden');
-}
+        closeBtn?.addEventListener('click', closeMobileMenu);
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                if (link.dataset.toggle === 'dropdown') {
+                    e.preventDefault();
+                    return;
+                }
+                closeMobileMenu();
+            });
+        });
+    });
+
+    // --- Lvkon Ürün Sekmeleri İşlevselliği ---
+document.addEventListener('DOMContentLoaded', function() {
+    const tabs = document.querySelectorAll('.tab-button');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    // Add a condition to make sure the elements exist before adding listeners
+    if (tabs.length > 0 && tabContents.length > 0) {
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const targetId = tab.dataset.tab;
+                const targetContent = document.getElementById(targetId);
+
+                tabs.forEach(t => t.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
+
+                tab.classList.add('active');
+                targetContent.classList.add('active');
+            });
+        });
+    }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  const trainingCategorySelect = document.getElementById('training-category-select');
+  const trainingSubCategorySelect = document.getElementById('training-subcategory-select');
+  const trainingCoursesContainer = document.getElementById('training-courses-container');
+  const trainingPlaceholder = document.getElementById('training-placeholder');
+
+  const trainingData = {
+    "Kurumsal Yönetim": {
+      "Kalite Yönetimi": {
+        description: 'ISO 9001 standardı temelinde, kuruluşunuzun kalite yönetim sistemini kurma, uygulama ve sürekli iyileştirme yetkinliklerini kazanın.',
+        courses: [
+          { topic: "ISO 9001:2015 Temel Eğitimi", iso: "ISO 9001", content: "Standardın maddeleri, terminoloji, KYS prensipleri.", level: "Başlangıç", structure: "Teorik + Vaka Analizi", duration: "2 gün" },
+          { topic: "ISO 9001:2015 İç Tetkikçi", iso: "ISO 19011", content: "Tetkik planlama, yürütme, raporlama ve takip.", level: "Orta", structure: "Teorik + Uygulama", duration: "3 gün" },
+          { topic: "Problem Çözme Teknikleri", iso: "N/A", content: "8D, Balık Kılçığı, 5 Neden Analizi.", level: "Tüm Seviyeler", structure: "Uygulamalı", duration: "1 gün" }
+        ]
+      },
+      "Çevre ve İSG Yönetimi": {
+        description: 'ISO 14001 ve ISO 45001 standartları ile çevresel etkileri yönetin ve güvenli bir çalışma ortamı oluşturun.',
+        courses: [
+          { topic: "ISO 14001:2015 ÇYS Temel", iso: "ISO 14001", content: "Çevre boyutları, yasal uyumluluk, performans değerlendirme.", level: "Başlangıç", structure: "Teorik", duration: "2 gün" },
+          { topic: "ISO 45001:2018 İSGYS Temel", iso: "ISO 45001", content: "Risk ve fırsatlar, çalışan katılımı, acil durum hazırlığı.", level: "Başlangıç", structure: "Teorik", duration: "2 gün" },
+          { topic: "Entegre Yönetim Sistemi İç Tetkikçi", iso: "ISO 19011", content: "9001, 14001, 45001 entegre tetkiki.", level: "İleri", structure: "Teorik + Uygulama", duration: "4 gün" }
+        ]
+      },
+      "Risk Yönetimi": {
+        description: 'ISO 31000 rehberliğinde kurumsal riskleri tanımlama, analiz etme ve etkili bir şekilde yönetme becerilerini geliştirin.',
+        courses: [
+          { topic: "ISO 31000 Kurumsal Risk Yönetimi", iso: "ISO 31000", content: "Risk yönetimi çerçevesi, süreci ve prensipleri.", level: "Orta", structure: "Teorik + Atölye", duration: "2 gün" }
+        ]
+      }
+    },
+    "Teknik ve Mühendislik": {
+      "Proje Yönetimi": {
+        description: 'PMI ve ISO 21502 standartlarına uygun olarak projeleri zamanında, bütçesinde ve kalitede tamamlama yetkinliği kazanın.',
+        courses: [
+          { topic: "Proje Yönetimi Temelleri", iso: "ISO 21502 / PMI", content: "Proje yaşam döngüsü, bilgi alanları, temel araçlar.", level: "Başlangıç", structure: "Teorik + Simülasyon", duration: "3 gün" },
+          { topic: "İleri Ürün Kalite Planlaması (APQP)", iso: "AS9145", content: "Havacılık ve savunma sanayine özel APQP ve PPAP süreci.", level: "İleri", structure: "Uygulamalı", duration: "2 gün" }
+        ]
+      },
+      "Sistem ve Yazılım Mühendisliği": {
+        description: 'ISO 15288 ve ISO 12207 gibi standartlarla karmaşık sistem ve yazılım projelerinin yaşam döngüsünü yönetin.',
+        courses: [
+          { topic: "Sistem Yaşam Döngüsü Yönetimi", iso: "ISO 15288", content: "Sistem mühendisliği süreçleri, gereksinimden doğrulamaya.", level: "Orta", structure: "Teorik", duration: "3 gün" },
+          { topic: "Yazılım Yaşam Döngüsü Yönetimi", iso: "ISO 12207", content: "Yazılım geliştirme, test ve bakım süreçleri.", level: "Orta", structure: "Teorik", duration: "3 gün" },
+          { topic: "Konfigürasyon Yönetimi", iso: "ISO 10007", content: "Değişiklik kontrolü, temel çizgiler ve konfigürasyon denetimi.", level: "Orta", structure: "Teorik + Araç Tanıtımı", duration: "2 gün" }
+        ]
+      },
+      "Savunma Sanayi Özel": {
+        description: 'AS9100 ve AQAP gibi standartlarla havacılık, uzay ve savunma sanayinin yüksek kalite beklentilerini karşılayın.',
+        courses: [
+          { topic: "AS9100 (ASD) Temel Eğitimi", iso: "AS9100 Rev D", content: "Havacılık, uzay ve savunma için KYS gereklilikleri.", level: "Orta", structure: "Teorik", duration: "2 gün" },
+          { topic: "AQAP 2110 Kalite Güvence", iso: "AQAP 2110", content: "NATO kalite güvence gereklilikleri ve uygulama.", level: "İleri", structure: "Teorik + Vaka Analizi", duration: "2 gün" },
+          { topic: "Süreç FMEA (PFMEA)", iso: "AIAG/VDA", content: "Hata türleri ve etkileri analizi ile riskleri proaktif yönetme.", level: "Orta", structure: "Uygulamalı", duration: "2 gün" }
+        ]
+      }
+    }
+  };
+
+  function populateTrainingCategories() {
+    trainingCategorySelect.innerHTML = '<option value="">Kurs Kategorisi Seçin</option>';
+    Object.keys(trainingData).forEach(category => {
+      const opt = document.createElement('option');
+      opt.value = category;
+      opt.textContent = category;
+      trainingCategorySelect.appendChild(opt);
+    });
+  }
+
+  function populateTrainingSubCategories() {
+    const category = trainingCategorySelect.value;
+    trainingSubCategorySelect.innerHTML = '<option value="">Kurs Konusu Seçin</option>';
+    if (category && trainingData[category]) {
+      Object.keys(trainingData[category]).forEach(sub => {
+        const opt = document.createElement('option');
+        opt.value = sub;
+        opt.textContent = sub;
+        trainingSubCategorySelect.appendChild(opt);
+      });
+    }
+    renderTrainingTable();
+  }
+
+  function renderTrainingTable() {
+    const category = trainingCategorySelect.value;
+    const sub = trainingSubCategorySelect.value;
+
+    if (category && sub && trainingData[category]?.[sub]) {
+      trainingPlaceholder.style.display = 'none';
+      const data = trainingData[category][sub];
+
+      let html = `
+        <div class="mb-6">
+          <h4 class="text-2xl font-semibold text-primary-blue mb-2">${sub}</h4>
+          <p class="text-md text-gray-600">${data.description}</p>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm text-left">
+            <thead class="bg-primary-blue text-white">
+              <tr>
+                <th class="p-3 rounded-tl-lg">Kurs Adı</th>
+                <th class="p-3">Standart</th>
+                <th class="p-3">İçerik Özeti</th>
+                <th class="p-3">Seviye</th>
+                <th class="p-3">Yapı</th>
+                <th class="p-3 rounded-tr-lg">Süre</th>
+              </tr>
+            </thead>
+            <tbody>
+      `;
+
+      data.courses.forEach(c => {
+        html += `
+          <tr class="border-b hover:bg-gray-50 transition-colors">
+            <td class="p-3 font-semibold text-primary-blue">${c.topic}</td>
+            <td class="p-3">${c.iso}</td>
+            <td class="p-3 text-gray-600">${c.content}</td>
+            <td class="p-3">
+              <span class="px-2 py-1 text-xs font-semibold text-white ${
+                c.level === 'Başlangıç' ? 'bg-green-500' :
+                c.level === 'Orta' ? 'bg-yellow-500' : 'bg-red-500'
+              } rounded-full">${c.level}</span>
+            </td>
+            <td class="p-3 text-gray-600">${c.structure}</td>
+            <td class="p-3 font-medium">${c.duration}</td>
+          </tr>
+        `;
+      });
+
+      html += '</tbody></table></div>';
+      trainingCoursesContainer.innerHTML = html;
+    } else {
+      trainingCoursesContainer.innerHTML = '';
+      trainingPlaceholder.style.display = 'flex';
+    }
+  }
+
+  trainingCategorySelect.addEventListener('change', populateTrainingSubCategories);
+  trainingSubCategorySelect.addEventListener('change', renderTrainingTable);
+  populateTrainingCategories();
+});
+
 
     </script>
 </body>
 </html>
-
-

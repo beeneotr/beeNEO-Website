@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Güç Aktarma Sistemleri - biz beeNEO</title>
+    
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+    <style>
+        :root {
+            --primary-blue: #003366;
+            --primary-pink: #E30044;
+            --light-gray: #f8f9fa;
+            --dark-gray: #1a202c;
+        }
+
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--dark-gray);
+            background-color: #fff;
+        }
+
+        .bg-primary-blue { background-color: var(--primary-blue); }
+        .text-primary-blue { color: var(--primary-blue); }
+        .text-primary-pink { color: var(--primary-pink); }
+        .bg-primary-pink { background-color: var(--primary-pink); }
+
+        .cta-button-pink {
+            background-color: var(--primary-pink);
+            color: #fff;
+            font-weight: 700;
+            padding: .75rem 1.5rem;
+            border-radius: .5rem;
+            display: inline-block;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+            transition: background-color .3s, transform .3s, box-shadow .3s;
+        }
+        .cta-button-pink:hover {
+            background-color: #c00039;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.18);
+        }
+
+        .swoosh-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        .swoosh-bg::before {
+            content: '';
+            position: absolute;
+            top: -20%;
+            left: -10%;
+            width: 120%;
+            height: 90%;
+            background: #f0f8ff; /* Light blue instead of green */
+            border-radius: 0 0 50% 50%;
+            z-index: -1;
+        }
+
+        /* Hero (Ana Başlık) Alanı Stili */
+        .hero { 
+        position: relative; 
+        overflow: hidden; 
+        }
+        
+        .hero::before { 
+            content: ''; 
+            position: absolute; 
+            top: 0; left: 0; 
+            width: 100%; height: 100%; 
+            background: linear-gradient(45deg, rgba(0,51,102,0.8), rgba(227,0,68,0.7)); 
+            z-index: 1; 
+        }
+        .hero-content { 
+            position: relative; 
+            z-index: 2; 
+        }
+
+        /* Wide Mega Menu Styles */
+        .mega-menu-wrapper {
+            position: absolute;
+            left: 0;
+            right: 0;
+            width: 100%;
+            display: none;
+            z-index: 100;
+            padding-top: 1rem;
+        }
+        .mega-menu-wrapper.active { display: block; }
+        .mega-menu {
+            background: white;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border-top: 1px solid #e5e7eb;
+            padding: 2.5rem 0;
+            width: 100%;
+        }
+        .mega-menu-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2.5rem;
+        }
+        .mega-menu-column { display: flex; flex-direction: column; }
+        .mega-menu-column h3 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--primary-pink);
+        }
+        .mega-menu-column ul { list-style: none; padding: 0; margin: 0; }
+        .mega-menu-column ul li { margin-bottom: 0.875rem; }
+        .mega-menu-column ul li a {
+            color: var(--dark-gray);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 0;
+            font-size: 0.95rem;
+        }
+        .mega-menu-column ul li a:hover { color: var(--primary-pink); transform: translateX(5px); }
+        .mega-menu-column ul li a i { margin-right: 0.75rem; font-size: 1rem; width: 20px; text-align: center; }
+        .mega-menu-column .submenu { padding-left: 1.75rem; margin-top: 0.5rem; }
+        .mega-menu-column .submenu li { margin-bottom: 0.625rem; font-size: 0.9rem; }
+        .mega-menu-column .submenu li a { color: #64748b; font-weight: 500; }
+        .mega-menu-column .submenu li a:hover { color: var(--primary-pink); }
+
+        /* Mobile helpers */
+        #mobile-menu { transition: transform 0.3s ease-in-out; }
+        body.menu-open { overflow: hidden; }
+
+        .mobile-dropdown-content { display: none; padding-left: 20px; }
+        .mobile-dropdown-content a { display: block; padding: 10px 0; color: white; text-decoration: none; }
+        .mobile-dropdown-content .submenu { padding-left: 20px; }
+        .mobile-dropdown-content .submenu a { font-size: 0.9rem; color: #ddd; }
+    </style>
+</head>
+<body class="bg-white min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header id="header" class="relative bg-primary-blue/5 py-4 px-6 md:px-10 flex justify-between items-center sticky top-0 z-50 shadow-lg backdrop-blur-sm transition-all duration-300">
+        <a href="../index.html#home" class="text-3xl font-extrabold tracking-wider text-black flex items-center gap-2">
+            <img src="beeneologo.png" alt="beeNEO Logo" class="h-12 w-auto" style="object-fit:contain;">
+        </a>
+
+        <!-- Desktop Nav -->
+        <nav class="hidden md:flex items-center space-x-6 lg:space-x-8">
+            <a href="../index.html#home" class="font-semibold text-black hover:text-primary-pink transition-colors duration-300">Ana Sayfa</a>
+
+            <!-- Mega Menu trigger -->
+            <div class="relative group" onmouseenter="showMegaMenu()" onmouseleave="hideMegaMenu()">
+              <button class="font-semibold text-black hover:text-primary-pink transition-colors duration-300 flex items-center">
+                Çözümlerimiz <i class="fas fa-chevron-down ml-1 text-xs"></i>
+              </button>
+            </div>
+
+            <a href="../index.html#about" class="font-semibold text-black hover:text-primary-pink transition-colors duration-300">Hakkımızda</a>
+            <a href="../index.html#contact" class="font-semibold text-black hover:text-primary-pink transition-colors duration-300">İletişim</a>
+            <a href="index.html" class="cta-button-pink text-white font-bold py-2 px-5 rounded-lg shadow-lg">Shop</a>
+        </nav>
+
+        <!-- Mobile hamburger -->
+        <button id="mobile-menu-button" class="md:hidden text-2xl text-black z-50">
+            <i class="fas fa-bars" id="menu-icon"></i>
+        </button>
+
+        <!-- Full-width Mega Menu (inside header, but outside <nav>) -->
+        <div id="mega-menu-wrapper" class="mega-menu-wrapper top-full"
+             onmouseenter="showMegaMenu()" onmouseleave="hideMegaMenu()">
+          <div class="mega-menu">
+            <div class="mega-menu-container">
+              <!-- Mobilite Column -->
+              <div class="mega-menu-column">
+                <h3><i class="fas fa-car-side mr-2"></i> Mobilite</h3>
+                <ul>
+                  <li><a href="#"><i class="fas fa-bolt"></i> Enerji Çözümleri</a></li>
+                  <li><a href="#"><i class="fas fa-cogs"></i> Güç Aktarma Sistemleri</a></li>
+                  <li><a href="#"><i class="fas fa-bicycle"></i> E-Bisiklet Dönüşüm Kitleri</a></li>
+                </ul>
+              </div>
+
+              <!-- Mühendislik Column -->
+              <div class="mega-menu-column">
+                <h3><i class="fas fa-cogs mr-2"></i> Mühendislik</h3>
+                <ul>
+                  <li>
+                    <a href="#"><i class="fas fa-wrench"></i> Mühendislik Çözümleri</a>
+                    <ul class="submenu">
+                      <li><a href="#">Sistem Mühendisliği & Mimari</a></li>
+                      <li><a href="#">Gömülü Sistemler</a></li>
+                    </ul>
+                  </li>
+                  <li><a href="#"><i class="fas fa-vial"></i> Test & Doğrulama (V&V)</a></li>
+                  <li><a href="#"><i class="fas fa-chart-line"></i> Stratejik Danışmanlık</a></li>
+                  <li><a href="#"><i class="fas fa-industry"></i> Prototip ve Üretim</a></li>
+                </ul>
+              </div>
+
+              <!-- Eğitim Column -->
+              <div class="mega-menu-column">
+                <h3><i class="fas fa-graduation-cap mr-2"></i> Eğitim</h3>
+                <ul>
+                  <li><a href="https://ooreneo.com"><i class="fas fa-robot"></i> oOreNEO | FeTeMM ve Robotik</a></li>
+                  <li><a href="#"><i class="fas fa-book-open"></i> sureNEO | Profesyonel Eğitimler</a></li>
+                </ul>
+              </div>
+
+              <!-- Yazılım Araçları Column -->
+              <div class="mega-menu-column">
+                <h3><i class="fas fa-laptop-code mr-2"></i> Yazılım Araçları</h3>
+                <ul>
+                  <li>
+                    <a href="#"><i class="fas fa-puzzle-piece"></i> Wondershare</a>
+                    <ul class="submenu">
+                      <li><a href="#">PDF Çözümleri</a></li>
+                      <li><a href="#">Video Yaratıcılığı</a></li>
+                      <li><a href="#">Yardımcı Programlar</a></li>
+                      <li><a href="#">Şema ve Grafikler</a></li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+
+            </div>
+          </div>
+        </div>
+    </header>
+
+    <nav id="mobile-menu" class="fixed top-0 left-0 w-full h-full bg-primary-blue transform -translate-x-full transition-transform duration-300 z-40 p-6 md:hidden">
+        <div class="flex justify-end mb-4">
+            <button id="mobile-close-button" class="text-white text-3xl">&times;</button>
+        </div>
+        <div class="flex flex-col space-y-4 text-center text-white">
+            <a href="../index.html#home" class="mobile-nav-link text-2xl font-semibold hover:text-primary-pink transition-colors">Ana Sayfa</a>
+            
+                    <div class="relative">
+                <button onclick="toggleMobileDropdown('cozumler-dropdown')" class="mobile-nav-link text-2xl font-semibold hover:text-primary-pink transition-colors flex items-center justify-center w-full" data-toggle="dropdown">
+                    Çözümlerimiz <i class="fas fa-chevron-down ml-2 text-sm"></i>
+                </button>
+                <div id="cozumler-dropdown" class="mobile-dropdown-content mt-2 text-left">
+                    <div class="pl-4">
+                        <h4 class="font-bold text-lg text-primary-pink">Mobilite</h4>
+                        <a href="#" class="block hover:text-primary-pink">Enerji Çözümleri</a>
+                        <a href="#" class="block hover:text-primary-pink">Güç Aktarma Sistemleri</a>
+                        <a href="#" class="block hover:text-primary-pink">E-Bisiklet Dönüşüm Kitleri</a>
+                    </div>
+                    <div class="mt-4 pl-4">
+                        <h4 class="font-bold text-lg text-primary-pink">Mühendislik</h4>
+                        <a href="#" class="block hover:text-primary-pink">Mühendislik Çözümleri</a>
+                        <a href="#" class="block hover:text-primary-pink">Test & Doğrulama (V&V)</a>
+                        <a href="#" class="block hover:text-primary-pink">Stratejik Danışmanlık</a>
+                        <a href="#" class="block hover:text-primary-pink">Prototip ve Üretim</a>
+                    </div>
+                    <div class="mt-4 pl-4">
+                        <h4 class="font-bold text-lg text-primary-pink">Eğitim</h4>
+                        <a href="https://ooreneo.com" class="block hover:text-primary-pink">oOreNEO | FeTeMM ve Robotik</a>
+                        <a href="#" class="block hover:text-primary-pink">sureNEO | Profesyonel Eğitimler</a>
+                    </div>
+                    <div class="mt-4 pl-4">
+                        <h4 class="font-bold text-lg text-primary-pink">Yazılım Araçları</h4>
+                        <a href="#" class="block hover:text-primary-pink">Wondershare</a>
+                    </div>
+                </div>
+            </div>
+    
+            <a href="../index.html#about" class="mobile-nav-link text-2xl font-semibold hover:text-primary-pink transition-colors">Hakkımızda</a>
+            <a href="../index.html#contact" class="mobile-nav-link text-2xl font-semibold hover:text-primary-pink transition-colors">İletişim</a>
+            <a href="index.html" class="mobile-nav-link cta-button-pink text-white font-bold py-3 px-8 rounded-lg shadow-lg">Shop</a>
+        </div>
+    </nav>
+    
+    <main class="container mx-auto px-6 py-12 flex-grow">
+        <section class="hero text-center py-20 relative rounded-lg overflow-hidden shadow-xl mb-12">
+            <div class="hero-content relative z-10 text-white">
+                <h1 class="text-4xl md:text-5xl font-extrabold mb-4 animate__animated animate__fadeInDown">
+                    Güç Aktarma Sistemleri
+                </h1>
+                <p class="text-lg md:text-xl max-w-2xl mx-auto mb-6 opacity-90 animate__animated animate__fadeInUp">
+                    beeNEO olarak, geleceğin teknolojisini bugüne taşıyan, yüksek verimli ve yenilikçi güç aktarma sistemleri çözümleri sunuyoruz.
+                </p>
+            </div>
+        </section>
+    
+        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+    
+            <div class="bg-gray-100 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1">
+                <a href="https://lvkon.beeneo.com/%C3%BCr%C3%BCnlerimiz/g%C3%BC%C3%A7-aktarma-%C3%BCniteleri-drive-assembly" class="block" target="_blank" rel="noopener noreferrer">
+                    <img src="DriveAssembly.png" alt="Güç Aktarma Ünitesi (Drive Assembly)" class="w-full h-48 object-cover rounded-t-lg">
+                    <div class="p-6">
+                        <h2 class="text-xl font-bold text-primary-blue mb-2">Güç Aktarma Ünitesi (Drive Assembly)</h2>
+                        <p class="text-gray-700 mb-4 text-sm">
+                            Güç aktarma ünitesi, bir aracın motorundan gelen gücü tekerleklere aktaran temel bileşenlerin bir araya geldiği sistemdir. Verimli ve güçlü bir sürüş deneyimi için kritik öneme sahiptir.
+                        </p>
+                        <span class="text-primary-pink font-semibold text-sm hover:underline">Daha Fazla Bilgi Edinin <i class="fas fa-arrow-right ml-1 text-xs"></i></span>
+                    </div>
+                </a>
+            </div>
+    
+            <div class="bg-gray-100 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1">
+                <a href="https://lvkon.beeneo.com/%C3%BCr%C3%BCnlerimiz/elektrikli-tahrik-aks%C4%B1-e-aks" class="block" target="_blank" rel="noopener noreferrer">
+                    <img src="DriveAxle.png" alt="Elektrikli Tahrik Aksı (E-Axle)" class="w-full h-48 object-cover rounded-t-lg">
+                    <div class="p-6">
+                        <h2 class="text-xl font-bold text-primary-blue mb-2">Elektrikli Tahrik Aksı (E-Axle)</h2>
+                        <p class="text-gray-700 mb-4 text-sm">
+                            Elektrikli tahrik aksı (e-aks), elektrik motoru, şanzıman ve güç elektroniği gibi bileşenleri tek bir kompakt ünitede birleştirerek elektrikli araçlar için verimli bir tahrik çözümü sunar.
+                        </p>
+                        <span class="text-primary-pink font-semibold text-sm hover:underline">Daha Fazla Bilgi Edinin <i class="fas fa-arrow-right ml-1 text-xs"></i></span>
+                    </div>
+                </a>
+            </div>
+    
+            <div class="bg-gray-100 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1">
+                <a href="https://lvkon.beeneo.com/%C3%BCr%C3%BCnlerimiz/g%C3%BC%C3%A7-aktarma-%C3%BCniteleri-drive-assembly" class="block" target="_blank" rel="noopener noreferrer">
+                    <img src="DriveMotor.png" alt="Tahrik Motoru (Drive Motor)" class="w-full h-48 object-cover rounded-t-lg">
+                    <div class="p-6">
+                        <h2 class="text-xl font-bold text-primary-blue mb-2">Tahrik Motoru (Drive Motor)</h2>
+                        <p class="text-gray-700 mb-4 text-sm">
+                            Tahrik motoru, elektrikli ve hibrit araçlarda batarya enerjisini mekanik harekete dönüştürerek tekerleklerin dönmesini sağlar. Yüksek verimlilik ve tork üretimi ile performansı belirler.
+                        </p>
+                        <span class="text-primary-pink font-semibold text-sm hover:underline">Daha Fazla Bilgi Edinin <i class="fas fa-arrow-right ml-1 text-xs"></i></span>
+                    </div>
+                </a>
+            </div>
+    
+            <div class="bg-gray-100 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1">
+                <a href="https://lvkon.beeneo.com/%C3%BCr%C3%BCnlerimiz/%C5%9Fanz%C4%B1man-transmission" class="block" target="_blank" rel="noopener noreferrer">
+                    <img src="Transmission.png" alt="Şanzıman (Transmission)" class="w-full h-48 object-cover rounded-t-lg">
+                    <div class="p-6">
+                        <h2 class="text-xl font-bold text-primary-blue mb-2">Şanzıman (Transmission)</h2>
+                        <p class="text-gray-700 mb-4 text-sm">
+                            Şanzıman, motorun ürettiği gücü ve torku aracın hızına ve yol koşullarına uygun şekilde tekerleklere ileten mekanik sistemdir. Vites kutusu olarak da bilinir.
+                        </p>
+                        <span class="text-primary-pink font-semibold text-sm hover:underline">Daha Fazla Bilgi Edinin <i class="fas fa-arrow-right ml-1 text-xs"></i></span>
+                    </div>
+                </a>
+            </div>
+        </section>
+    </main>
+
+
+    <!-- Footer -->
+    <footer class="bg-primary-blue text-white py-8">
+        <div class="container mx-auto px-6 text-center">
+            <p>&copy; 2025 beeNEO | Tüm Hakları Saklıdır.</p>
+            <div class="mt-4 space-x-4">
+                <a href="#" class="hover:text-primary-pink transition-colors"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#" class="hover:text-primary-pink transition-colors"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="hover:text-primary-pink transition-colors"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mega Menu functionality
+   // Mega Menu functionality
+   let megaMenuTimeout;
+    function showMegaMenu() {
+        clearTimeout(megaMenuTimeout);
+        const megaMenuWrapper = document.getElementById('mega-menu-wrapper');
+        if (!megaMenuWrapper) return;
+        megaMenuWrapper.classList.add('active');
+    }
+    function hideMegaMenu() {
+        megaMenuTimeout = setTimeout(() => {
+            const megaMenuWrapper = document.getElementById('mega-menu-wrapper');
+            if (!megaMenuWrapper) return;
+            megaMenuWrapper.classList.remove('active');
+        }, 200);
+    }
+
+    // Keep mega menu open when hovering over it
+    document.getElementById('mega-menu-wrapper')?.addEventListener('mouseenter', () => {
+        clearTimeout(megaMenuTimeout);
+    });
+    document.getElementById('mega-menu-wrapper')?.addEventListener('mouseleave', () => {
+        hideMegaMenu();
+    });
+
+    // Mobile helpers
+    function toggleMobileDropdown(id) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.style.display = (el.style.display === 'block') ? 'none' : 'block';
+    }
+    
+    function closeMobileMenu() {
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenu?.classList.remove('translate-x-0');
+        mobileMenu?.classList.add('-translate-x-full');
+        document.body.classList.remove('menu-open');
+    }
+
+    // Mobile menu functionality
+    document.addEventListener('DOMContentLoaded', () => {
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const closeBtn = document.getElementById('mobile-close-button');
+        const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+
+        mobileMenuButton?.addEventListener('click', () => {
+    mobileMenu?.classList.toggle('translate-x-0');
+    mobileMenu?.classList.toggle('-translate-x-full');
+    document.body.classList.toggle('menu-open');
+});
+
+        closeBtn?.addEventListener('click', closeMobileMenu);
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                if (link.dataset.toggle === 'dropdown') {
+                    e.preventDefault();
+                    return;
+                }
+                closeMobileMenu();
+            });
+        });
+    });
+
+    
+
+
+    </script>
+</body>
+</html>

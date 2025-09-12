@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mühendislik - biz beeNEO</title>
+    
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --primary-blue: #003366;
+            --primary-pink: #E30044;
+            --light-gray: #f8f9fa;
+            --dark-gray: #1a202c;
+        }
+
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--dark-gray);
+            background-color: #fff;
+        }
+
+        .bg-primary-blue { background-color: var(--primary-blue); }
+        .text-primary-blue { color: var(--primary-blue); }
+        .text-primary-pink { color: var(--primary-pink); }
+        .bg-primary-pink { background-color: var(--primary-pink); }
+
+        .cta-button-pink {
+            background-color: var(--primary-pink);
+            color: #fff;
+            font-weight: 700;
+            padding: .75rem 1.5rem;
+            border-radius: .5rem;
+            display: inline-block;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+            transition: background-color .3s, transform .3s, box-shadow .3s;
+        }
+        .cta-button-pink:hover {
+            background-color: #c00039;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.18);
+        }
+
+        .swoosh-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        .swoosh-bg::before {
+            content: '';
+            position: absolute;
+            top: -20%;
+            left: -10%;
+            width: 120%;
+            height: 90%;
+            background: #f0f8ff; /* Light blue instead of green */
+            border-radius: 0 0 50% 50%;
+            z-index: -1;
+        }
+
+        /* Wide Mega Menu Styles */
+        .mega-menu-wrapper {
+            position: absolute;
+            left: 0;
+            right: 0;
+            width: 100%;
+            display: none;
+            z-index: 100;
+            padding-top: 1rem;
+        }
+        .mega-menu-wrapper.active { display: block; }
+        .mega-menu {
+            background: white;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border-top: 1px solid #e5e7eb;
+            padding: 2.5rem 0;
+            width: 100%;
+        }
+        .mega-menu-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2.5rem;
+        }
+        .mega-menu-column { display: flex; flex-direction: column; }
+        .mega-menu-column h3 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--primary-pink);
+        }
+        .mega-menu-column ul { list-style: none; padding: 0; margin: 0; }
+        .mega-menu-column ul li { margin-bottom: 0.875rem; }
+        .mega-menu-column ul li a {
+            color: var(--dark-gray);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 0;
+            font-size: 0.95rem;
+        }
+
+
+        
+        .mega-menu-column ul li a:hover { color: var(--primary-pink); transform: translateX(5px); }
+        .mega-menu-column ul li a i { margin-right: 0.75rem; font-size: 1rem; width: 20px; text-align: center; }
+        .mega-menu-column .submenu { padding-left: 1.75rem; margin-top: 0.5rem; }
+        .mega-menu-column .submenu li { margin-bottom: 0.625rem; font-size: 0.9rem; }
+        .mega-menu-column .submenu li a { color: #64748b; font-weight: 500; }
+        .mega-menu-column .submenu li a:hover { color: var(--primary-pink); }
+
+        /* Mobile helpers */
+        #mobile-menu { transition: transform 0.3s ease-in-out; }
+        body.menu-open { overflow: hidden; }
+
+        .mobile-dropdown-content { display: none; padding-left: 20px; }
+        .mobile-dropdown-content a { display: block; padding: 10px 0; color: white; text-decoration: none; }
+        .mobile-dropdown-content .submenu { padding-left: 20px; }
+        .mobile-dropdown-content .submenu a { font-size: 0.9rem; color: #ddd; }
+    </style>
+</head>
+<body class="bg-white min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header id="header" class="relative bg-primary-blue/5 py-4 px-6 md:px-10 flex justify-between items-center sticky top-0 z-50 shadow-lg backdrop-blur-sm transition-all duration-300">
+        <a href="../index.html#home" class="text-3xl font-extrabold tracking-wider text-black flex items-center gap-2">
+            <img src="beeneologo.png" alt="beeNEO Logo" class="h-12 w-auto" style="object-fit:contain;">
+        </a>
+
+        <!-- Desktop Nav -->
+        <nav class="hidden md:flex items-center space-x-6 lg:space-x-8">
+            <a href="../index.html#home" class="font-semibold text-black hover:text-primary-pink transition-colors duration-300">Ana Sayfa</a>
+
+            <!-- Mega Menu trigger -->
+            <div class="relative group" onmouseenter="showMegaMenu()" onmouseleave="hideMegaMenu()">
+              <button class="font-semibold text-black hover:text-primary-pink transition-colors duration-300 flex items-center">
+                Çözümlerimiz <i class="fas fa-chevron-down ml-1 text-xs"></i>
+              </button>
+            </div>
+
+            <a href="../index.html#about" class="font-semibold text-black hover:text-primary-pink transition-colors duration-300">Hakkımızda</a>
+            <a href="../index.html#contact" class="font-semibold text-black hover:text-primary-pink transition-colors duration-300">İletişim</a>
+            <a href="index.html" class="cta-button-pink text-white font-bold py-2 px-5 rounded-lg shadow-lg">Shop</a>
+        </nav>
+
+        <!-- Mobile hamburger -->
+        <button id="mobile-menu-button" class="md:hidden text-2xl text-black z-50">
+            <i class="fas fa-bars" id="menu-icon"></i>
+        </button>
+
+        <!-- Full-width Mega Menu (inside header, but outside <nav>) -->
+        <div id="mega-menu-wrapper" class="mega-menu-wrapper top-full"
+             onmouseenter="showMegaMenu()" onmouseleave="hideMegaMenu()">
+          <div class="mega-menu">
+            <div class="mega-menu-container">
+              <!-- Mobilite Column -->
+              <div class="mega-menu-column">
+                <h3><i class="fas fa-car-side mr-2"></i> Mobilite</h3>
+                <ul>
+                  <li><a href="#"><i class="fas fa-bolt"></i> Enerji Çözümleri</a></li>
+                  <li><a href="#"><i class="fas fa-cogs"></i> Güç Aktarma Sistemleri</a></li>
+                  <li><a href="#"><i class="fas fa-bicycle"></i> E-Bisiklet Dönüşüm Kitleri</a></li>
+                </ul>
+              </div>
+
+              <!-- Mühendislik Column -->
+              <div class="mega-menu-column">
+                <h3><i class="fas fa-cogs mr-2"></i> Mühendislik</h3>
+                <ul>
+                  <li>
+                    <a href="#"><i class="fas fa-wrench"></i> Mühendislik Çözümleri</a>
+                    <ul class="submenu">
+                      <li><a href="#">Sistem Mühendisliği & Mimari</a></li>
+                      <li><a href="#">Gömülü Sistemler</a></li>
+                    </ul>
+                  </li>
+                  <li><a href="#"><i class="fas fa-vial"></i> Test & Doğrulama (V&V)</a></li>
+                  <li><a href="#"><i class="fas fa-chart-line"></i> Stratejik Danışmanlık</a></li>
+                  <li><a href="#"><i class="fas fa-industry"></i> Prototip ve Üretim</a></li>
+                </ul>
+              </div>
+
+              <!-- Eğitim Column -->
+              <div class="mega-menu-column">
+                <h3><i class="fas fa-graduation-cap mr-2"></i> Eğitim</h3>
+                <ul>
+                  <li><a href="#"><i class="fas fa-robot"></i> oOreNEO | FeTeMM ve Robotik</a></li>
+                  <li><a href="#"><i class="fas fa-book-open"></i> sureNEO | Profesyonel Eğitimler</a></li>
+                </ul>
+              </div>
+
+              <!-- Yazılım Araçları Column -->
+              <div class="mega-menu-column">
+                <h3><i class="fas fa-laptop-code mr-2"></i> Yazılım Araçları</h3>
+                <ul>
+                  <li>
+                    <a href="#"><i class="fas fa-puzzle-piece"></i> Wondershare</a>
+                    <ul class="submenu">
+                      <li><a href="#">PDF Çözümleri</a></li>
+                      <li><a href="#">Video Yaratıcılığı</a></li>
+                      <li><a href="#">Yardımcı Programlar</a></li>
+                      <li><a href="#">Şema ve Grafikler</a></li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="md:hidden">
+            
+        </div>
+    </header>
+
+    <nav id="mobile-menu" class="fixed top-0 left-0 w-full h-full bg-primary-blue transform -translate-x-full transition-transform duration-300 z-40 p-6 md:hidden">
+        <div class="flex justify-end mb-4">
+            <button id="mobile-close-button" class="text-white text-3xl">&times;</button>
+        </div>
+        <div class="flex flex-col space-y-4 text-center text-white">
+            <a href="../index.html#home" class="mobile-nav-link text-2xl font-semibold hover:text-primary-pink transition-colors">Ana Sayfa</a>
+            
+                    <div class="relative">
+                <button onclick="toggleMobileDropdown('cozumler-dropdown')" class="mobile-nav-link text-2xl font-semibold hover:text-primary-pink transition-colors flex items-center justify-center w-full" data-toggle="dropdown">
+                    Çözümlerimiz <i class="fas fa-chevron-down ml-2 text-sm"></i>
+                </button>
+                <div id="cozumler-dropdown" class="mobile-dropdown-content mt-2 text-left">
+                    <div class="pl-4">
+                        <h4 class="font-bold text-lg text-primary-pink">Mobilite</h4>
+                        <a href="#" class="block hover:text-primary-pink">Enerji Çözümleri</a>
+                        <a href="#" class="block hover:text-primary-pink">Güç Aktarma Sistemleri</a>
+                        <a href="#" class="block hover:text-primary-pink">E-Bisiklet Dönüşüm Kitleri</a>
+                    </div>
+                    <div class="mt-4 pl-4">
+                        <h4 class="font-bold text-lg text-primary-pink">Mühendislik</h4>
+                        <a href="#" class="block hover:text-primary-pink">Mühendislik Çözümleri</a>
+                        <a href="#" class="block hover:text-primary-pink">Test & Doğrulama (V&V)</a>
+                        <a href="#" class="block hover:text-primary-pink">Stratejik Danışmanlık</a>
+                        <a href="#" class="block hover:text-primary-pink">Prototip ve Üretim</a>
+                    </div>
+                    <div class="mt-4 pl-4">
+                        <h4 class="font-bold text-lg text-primary-pink">Eğitim</h4>
+                        <a href="#" class="block hover:text-primary-pink">oOreNEO | FeTeMM ve Robotik</a>
+                        <a href="#" class="block hover:text-primary-pink">sureNEO | Profesyonel Eğitimler</a>
+                    </div>
+                    <div class="mt-4 pl-4">
+                        <h4 class="font-bold text-lg text-primary-pink">Yazılım Araçları</h4>
+                        <a href="#" class="block hover:text-primary-pink">Wondershare</a>
+                    </div>
+                </div>
+            </div>
+    
+            <a href="../index.html#about" class="mobile-nav-link text-2xl font-semibold hover:text-primary-pink transition-colors">Hakkımızda</a>
+            <a href="../index.html#contact" class="mobile-nav-link text-2xl font-semibold hover:text-primary-pink transition-colors">İletişim</a>
+            <a href="index.html" class="mobile-nav-link cta-button-pink text-white font-bold py-3 px-8 rounded-lg shadow-lg">Shop</a>
+        </div>
+    </nav>
+  
+
+
+
+
+
+
+    <main>
+     
+
+        <!-- About Us Section -->
+        <section id="hakkimizda" class="py-20 bg-slate-50">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-4 section-title">Hakkımızda</h2>
+                <p class="max-w-3xl mx-auto text-center text-gray-600 mb-16">2016'da İstanbul'da kurulan beeNEO, uluslararası tecrübesini Türkiye'nin teknolojik hedeflerine hizmet etme vizyonuyla birleştirir. Bilişim Vadisi ve İstanbul'daki Ar-Ge merkezlerimizle, küresel birikimi yerel ihtiyaçlara özel, hızlı ve esnek çözümlere dönüştürüyoruz.</p>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="stat-card bg-white p-8 rounded-lg shadow-lg text-center">
+                        <div class="flex justify-center items-center mb-4">
+                            <i data-lucide="briefcase" class="w-12 h-12 text-[#0055a5]"></i>
+                        </div>
+                        <h3 class="text-4xl font-bold text-gray-900">100+</h3>
+                        <p class="text-gray-500">Başarılı Proje</p>
+                    </div>
+                    <div class="stat-card bg-white p-8 rounded-lg shadow-lg text-center">
+                         <div class="flex justify-center items-center mb-4">
+                            <i data-lucide="globe" class="w-12 h-12 text-[#0055a5]"></i>
+                        </div>
+                        <h3 class="text-4xl font-bold text-gray-900">20+</h3>
+                        <p class="text-gray-500">Ülkede Global Tecrübe</p>
+                    </div>
+                    <div class="stat-card bg-white p-8 rounded-lg shadow-lg text-center">
+                         <div class="flex justify-center items-center mb-4">
+                            <i data-lucide="clock" class="w-12 h-12 text-[#0055a5]"></i>
+                        </div>
+                        <h3 class="text-4xl font-bold text-gray-900">100K+</h3>
+                        <p class="text-gray-500">Saat Mühendislik</p>
+                    </div>
+                    <div class="stat-card bg-white p-8 rounded-lg shadow-lg text-center">
+                         <div class="flex justify-center items-center mb-4">
+                            <i data-lucide="award" class="w-12 h-12 text-[#0055a5]"></i>
+                        </div>
+                        <h3 class="text-4xl font-bold text-gray-900">25+</h3>
+                        <p class="text-gray-500">Yıl Sektör Tecrübesi</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Competencies Section -->
+        <section id="yetkinlikler" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-16 section-title">Mühendislik Yetkinliklerimiz</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="competency-card bg-slate-50 p-6 rounded-lg">
+                        <div class="flex items-center mb-4">
+                           <i data-lucide="network" class="w-8 h-8 text-[#0055a5] mr-4"></i>
+                            <h3 class="text-xl font-semibold text-gray-900">Sistem Mühendisliği ve Mimarisi</h3>
+                        </div>
+                        <p class="text-gray-600">DOORS, Teamcenter/Polarion gibi araçlarla gereksinim yönetimi ve Model Tabanlı Sistem Mühendisliği (MBSE) uygulayarak projelerinizin temelini sağlam atıyoruz.</p>
+                    </div>
+                    <div class="competency-card bg-slate-50 p-6 rounded-lg">
+                        <div class="flex items-center mb-4">
+                            <i data-lucide="cpu" class="w-8 h-8 text-[#0055a5] mr-4"></i>
+                            <h3 class="text-xl font-semibold text-gray-900">Gömülü Sistemler ve E-Mobilite</h3>
+                        </div>
+                        <p class="text-gray-600">800V BMS donanım geliştirme, ADAS, OTA, Lidar/Radar ve V2X gibi ileri teknoloji alanlarında donanım ve yazılım çözümleri üretiyoruz.</p>
+                    </div>
+                    <div class="competency-card bg-slate-50 p-6 rounded-lg">
+                        <div class="flex items-center mb-4">
+                            <i data-lucide="shield-check" class="w-8 h-8 text-[#0055a5] mr-4"></i>
+                            <h3 class="text-xl font-semibold text-gray-900">Güvenlik ve Süreç Mükemmelliği</h3>
+                        </div>
+                        <p class="text-gray-600">ISO 26262 (Fonksiyonel Güvenlik), ISO 21434 (Siber Güvenlik), ASPICE ve AS9100 gibi uluslararası standartlarda projeler geliştiriyor ve danışmanlık veriyoruz.</p>
+                    </div>
+                    <div class="competency-card bg-slate-50 p-6 rounded-lg">
+                        <div class="flex items-center mb-4">
+                             <i data-lucide="test-tube-2" class="w-8 h-8 text-[#0055a5] mr-4"></i>
+                            <h3 class="text-xl font-semibold text-gray-900">Test, Doğrulama ve Validasyon</h3>
+                        </div>
+                        <p class="text-gray-600">CANalyzer, TestStand, TESSY gibi araçlarla test otomasyonu ve HIL test standı geliştirme dahil, sistemlerinizin kalitesini ve güvenilirliğini garanti ediyoruz.</p>
+                    </div>
+                    <div class="competency-card bg-slate-50 p-6 rounded-lg">
+                        <div class="flex items-center mb-4">
+                            <i data-lucide="car" class="w-8 h-8 text-[#0055a5] mr-4"></i>
+                            <h3 class="text-xl font-semibold text-gray-900">Güç Aktarma Organları (Powertrain)</h3>
+                        </div>
+                        <p class="text-gray-600">Lvkon'un resmi ortağı olarak ticari EV/HV araçlar için e-aks, e-motor, kontrol üniteleri ve transmisyon çözümleri sunuyoruz.</p>
+                    </div>
+                    <div class="competency-card bg-slate-50 p-6 rounded-lg">
+                        <div class="flex items-center mb-4">
+                             <i data-lucide="wrench" class="w-8 h-8 text-[#0055a5] mr-4"></i>
+                            <h3 class="text-xl font-semibold text-gray-900">Mühendislik Araç Zinciri Danışmanlığı</h3>
+                        </div>
+                        <p class="text-gray-600">PLM (Teamcenter), ALM (Polarion), CAD (NX) araçları arasında entegrasyon sağlayarak Arçelik ve GKN gibi lider firmaların verimliliğini artırıyoruz.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Partners Section -->
+        <section id="ortaklar" class="py-20 bg-slate-50">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-4 section-title">İş Ortaklarımız ve Müşterilerimiz</h2>
+                <p class="max-w-3xl mx-auto text-center text-gray-600 mb-12">Otomotiv, havacılık ve savunma sanayii başta olmak üzere, sektörlerinin lider firmalarıyla çalışmaktan gurur duyuyoruz.</p>
+                <div class="flex flex-wrap justify-center items-center gap-x-16 gap-y-8">
+                    <img src="https://placehold.co/150x60/f8fafc/64748b?text=OEM+Marka+1" alt="İş Ortağı Logosu 1" class="partner-logo h-12">
+                    <img src="https://placehold.co/150x60/f8fafc/64748b?text=Tier-1+Tedarikçi" alt="İş Ortağı Logosu 2" class="partner-logo h-12">
+                    <img src="https://placehold.co/150x60/f8fafc/64748b?text=Savunma+Sanayii" alt="İş Ortağı Logosu 3" class="partner-logo h-12">
+                    <img src="https://placehold.co/150x60/f8fafc/64748b?text=Havacılık+Şirketi" alt="İş Ortağı Logosu 4" class="partner-logo h-12">
+                    <img src="https://placehold.co/150x60/f8fafc/64748b?text=Teknoloji+Firması" alt="İş Ortağı Logosu 5" class="partner-logo h-12">
+                </div>
+            </div>
+        </section>
+        
+        <!-- Products Section -->
+        <section id="urunler" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-4 section-title">Ar-Ge Ürünlerimiz</h2>
+                <p class="max-w-3xl mx-auto text-center text-gray-600 mb-16">TÜBİTAK ve KOSGEB destekleriyle, sahadaki tecrübemizi yenilikçi ürünlere dönüştürüyoruz.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="bg-white rounded-lg overflow-hidden shadow-lg transform transition hover:-translate-y-2 border">
+                        <img src="https://placehold.co/600x400/e0e7ff/0055a5?text=theNEOb.ist" alt="theNEOb.ist e-bike conversion kit" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-900">theNEOb.ist</h3>
+                            <p class="text-gray-600 mt-2">Bisikletinizi kolayca elektrikli bisiklete dönüştürmenizi sağlayan yenilikçi dönüşüm kiti.</p>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-lg overflow-hidden shadow-lg transform transition hover:-translate-y-2 border">
+                        <img src="https://placehold.co/600x400/dbeafe/0055a5?text=NEOflasher" alt="NEOflasher" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-900">NEOflasher</h3>
+                            <p class="text-gray-600 mt-2">Gelişmiş test ve programlama ihtiyaçlarınız için tasarlanmış yüksek performanslı donanım çözümü.</p>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-lg overflow-hidden shadow-lg transform transition hover:-translate-y-2 border">
+                        <img src="https://placehold.co/600x400/cffafe/0055a5?text=oOreNEO" alt="oOreNEO" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-900">oOreNEO</h3>
+                            <p class="text-gray-600 mt-2">Endüstriyel otomasyon ve veri toplama için geliştirdiğimiz özelleştirilebilir platform çözümümüz.</p>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-lg overflow-hidden shadow-lg transform transition hover:-translate-y-2 border">
+                        <img src="https://placehold.co/600x400/e5e5e5/0055a5?text=mesafeRAY" alt="mesafeRAY" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-900">mesafeRAY</h3>
+                            <p class="text-gray-600 mt-2">Yüksek hassasiyetli mesafe ölçüm ve konumlandırma sistemleri için geliştirdiğimiz sensör teknolojisi.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Career Section -->
+        <section id="kariyer" class="py-20 bg-gray-800 text-white">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Ekibimize Katılın</h2>
+                <p class="max-w-2xl mx-auto text-lg text-gray-300 mb-8">Türkiye'nin teknoloji geleceğini şekillendiren projelerde yer almak, dinamik ve yenilikçi bir ekibin parçası olmak istiyorsanız, sizi de beeNEO ailesine bekliyoruz.</p>
+                <a href="mailto:info@beeneo.com" class="bg-white text-[#0055a5] px-8 py-3 rounded-md font-semibold text-lg hover:bg-gray-200 transition transform hover:scale-105">info@beeneo.com</a>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="iletisim" class="py-20 bg-white">
+            <div class="container mx-auto px-6 ">
+                <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-16 section-title">İletişime Geçin</h2>
+                <div class="flex flex-wrap -mx-4">
+                    <div class="w-full lg:w-1/2 px-4 mb-8 lg:mb-0">
+                        <h3 class="text-2xl font-semibold text-gray-900 mb-4">Projenizi Birlikte Hayata Geçirelim</h3>
+                        <p class="text-gray-600 mb-6">Mühendislik ihtiyaçlarınız, hedefleriniz ve beeNEO'nun size nasıl destek olabileceği hakkında daha detaylı görüşmek için bize ulaşın.</p>
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <i data-lucide="map-pin" class="w-6 h-6 text-[#0055a5] mt-1 mr-4 flex-shrink-0"></i>
+                                <div>
+                                    <h4 class="font-semibold text-gray-800">Merkez Ofis</h4>
+                                    <p class="text-gray-600">Pembegül Sk. No: 7 D8, 34680 Üsküdar/İstanbul</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <i data-lucide="building" class="w-6 h-6 text-[#0055a5] mt-1 mr-4 flex-shrink-0"></i>
+                                <div>
+                                    <h4 class="font-semibold text-gray-800">Ar-Ge Ofisi</h4>
+                                    <p class="text-gray-600">Bilişim Vadisi, 42400 Gebze/Kocaeli</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <i data-lucide="phone" class="w-6 h-6 text-[#0055a5] mt-1 mr-4 flex-shrink-0"></i>
+                                <div>
+                                    <h4 class="font-semibold text-gray-800">Telefon</h4>
+                                    <p class="text-gray-600">+90 (216) 460 17 20</p>
+                                </div>
+                            </div>
+                             <div class="flex items-start">
+                                <i data-lucide="mail" class="w-6 h-6 text-[#0055a5] mt-1 mr-4 flex-shrink-0"></i>
+                                <div>
+                                    <h4 class="font-semibold text-gray-800">E-posta</h4>
+                                    <p class="text-gray-600">info@beeneo.com</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-full lg:w-1/2 px-4">
+                        <div class="bg-slate-50 p-8 rounded-lg shadow-lg border">
+                            <form action="#" method="POST">
+                                <div class="mb-4">
+                                    <label for="name" class="block text-gray-700 font-medium mb-2">Adınız Soyadınız</label>
+                                    <input type="text" id="name" name="name" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0055a5]" required>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="email" class="block text-gray-700 font-medium mb-2">E-posta Adresiniz</label>
+                                    <input type="email" id="email" name="email" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0055a5]" required>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="message" class="block text-gray-700 font-medium mb-2">Mesajınız</label>
+                                    <textarea id="message" name="message" rows="5" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0055a5]" required></textarea>
+                                </div>
+                                <button type="submit" class="w-full bg-[#0055a5] text-white font-semibold px-6 py-3 rounded-md hover:bg-[#004488] transition">Mesajı Gönder</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+
+    <!-- Footer -->
+    <footer class="bg-primary-blue text-white py-8">
+        <div class="container mx-auto px-6 text-center">
+            <p>&copy; 2025 beeNEO | Tüm Hakları Saklıdır.</p>
+            <div class="mt-4 space-x-4">
+                <a href="#" class="hover:text-primary-pink transition-colors"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#" class="hover:text-primary-pink transition-colors"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="hover:text-primary-pink transition-colors"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mega Menu functionality
+   // Mega Menu functionality
+   let megaMenuTimeout;
+    function showMegaMenu() {
+        clearTimeout(megaMenuTimeout);
+        const megaMenuWrapper = document.getElementById('mega-menu-wrapper');
+        if (!megaMenuWrapper) return;
+        megaMenuWrapper.classList.add('active');
+    }
+    function hideMegaMenu() {
+        megaMenuTimeout = setTimeout(() => {
+            const megaMenuWrapper = document.getElementById('mega-menu-wrapper');
+            if (!megaMenuWrapper) return;
+            megaMenuWrapper.classList.remove('active');
+        }, 200);
+    }
+
+    // Keep mega menu open when hovering over it
+    document.getElementById('mega-menu-wrapper')?.addEventListener('mouseenter', () => {
+        clearTimeout(megaMenuTimeout);
+    });
+    document.getElementById('mega-menu-wrapper')?.addEventListener('mouseleave', () => {
+        hideMegaMenu();
+    });
+
+    // Mobile helpers
+    function toggleMobileDropdown(id) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.style.display = (el.style.display === 'block') ? 'none' : 'block';
+    }
+    
+    function closeMobileMenu() {
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenu?.classList.remove('translate-x-0');
+        mobileMenu?.classList.add('-translate-x-full');
+        document.body.classList.remove('menu-open');
+    }
+
+    // Mobile menu functionality
+    document.addEventListener('DOMContentLoaded', () => {
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const closeBtn = document.getElementById('mobile-close-button');
+        const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+
+        mobileMenuButton?.addEventListener('click', () => {
+    mobileMenu?.classList.toggle('translate-x-0');
+    mobileMenu?.classList.toggle('-translate-x-full');
+    document.body.classList.toggle('menu-open');
+});
+
+        closeBtn?.addEventListener('click', closeMobileMenu);
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                if (link.dataset.toggle === 'dropdown') {
+                    e.preventDefault();
+                    return;
+                }
+                closeMobileMenu();
+            });
+        });
+    });
+
+    lucide.createIcons();
+
+
+    </script>
+</body>
+</html>

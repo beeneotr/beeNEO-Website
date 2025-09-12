@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wondershare Ürünleri | beeNEO</title>
+    
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+    <!-- Favicons -->
+    <link rel="icon" href="../faviconicon.png" type="image/png">
+    <link rel="apple-touch-icon" href="../faviconiconmac.png">
+
+    <style>
+        :root {
+            --primary-blue: #003366;
+            --primary-pink: #E30044;
+            --light-gray: #f8f9fa;
+            --dark-gray: #1a202c;
+        }
+
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--dark-gray);
+            background-color: #fff;
+        }
+
+        .bg-primary-blue { background-color: var(--primary-blue); }
+        .text-primary-blue { color: var(--primary-blue); }
+        .text-primary-pink { color: var(--primary-pink); }
+        .bg-primary-pink { background-color: var(--primary-pink); }
+
+        .cta-button-pink {
+            background-color: var(--primary-pink);
+            color: #fff;
+            font-weight: 700;
+            padding: .5rem 1.25rem;
+            border-radius: .5rem;
+            display: inline-block;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+            transition: background-color .3s, transform .3s, box-shadow .3s;
+        }
+        .cta-button-pink:hover {
+            background-color: #c00039;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.18);
+        }
+
+        /* Wide Mega Menu Styles */
+        .mega-menu-wrapper {
+            position: absolute;
+            left: 0;
+            right: 0;
+            width: 100%;
+            display: none;
+            z-index: 100;
+            padding-top: 1rem;
+        }
+        .mega-menu-wrapper.active { display: block; }
+        .mega-menu {
+            background: white;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border-top: 1px solid #e5e7eb;
+            padding: 2.5rem 0;
+            width: 100%;
+        }
+        .mega-menu-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2.5rem;
+        }
+        .mega-menu-column { display: flex; flex-direction: column; }
+        .mega-menu-column h3 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--primary-pink);
+        }
+        .mega-menu-column ul { list-style: none; padding: 0; margin: 0; }
+        .mega-menu-column ul li { margin-bottom: 0.875rem; }
+        .mega-menu-column ul li a {
+            color: var(--dark-gray);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 0;
+            font-size: 0.95rem;
+        }
+        .mega-menu-column ul li a:hover { color: var(--primary-pink); transform: translateX(5px); }
+        .mega-menu-column ul li a i { margin-right: 0.75rem; font-size: 1rem; width: 20px; text-align: center; }
+        .mega-menu-column .submenu { padding-left: 1.75rem; margin-top: 0.5rem; }
+        .mega-menu-column .submenu li { margin-bottom: 0.625rem; font-size: 0.9rem; }
+        .mega-menu-column .submenu li a { color: #64748b; font-weight: 500; }
+        .mega-menu-column .submenu li a:hover { color: var(--primary-pink); }
+
+        /* Mobile helpers */
+        #mobile-menu { transition: transform 0.3s ease-in-out; }
+        body.menu-open { overflow: hidden; }
+
+        .mobile-dropdown-content { display: none; padding-left: 20px; }
+        .mobile-dropdown-content a { display: block; padding: 10px 0; color: white; text-decoration: none; }
+        .mobile-dropdown-content .submenu { padding-left: 20px; }
+        .mobile-dropdown-content .submenu a { font-size: 0.9rem; color: #ddd; }
+
+        /* Product grid styles */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+        
+        .product-card.is-hidden {
+            opacity: 0;
+            transform: scale(0.95);
+            pointer-events: none;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 180px;
+            object-fit: contain;
+            padding: 1.5rem;
+            background: var(--light-gray);
+        }
+        
+        .product-info {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .product-title {
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-blue);
+            text-align: center;
+        }
+        
+        .category-filter {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+        
+        .filter-button {
+            padding: 0.5rem 1.5rem;
+            border-radius: 2rem;
+            background: white;
+            border: 1px solid #ddd;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .filter-button.active, .filter-button:hover {
+            background: var(--primary-blue);
+            color: white;
+            border-color: var(--primary-blue);
+        }
+        
+        .product-modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.85); z-index: 1000; overflow-y: auto; padding: 2rem 0;
+        }
+        
+        .modal-content {
+            background-color: white; margin: 2rem auto; border-radius: 12px;
+            max-width: 900px; width: 90%; position: relative; animation: modalFadeIn 0.3s;
+        }
+        
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .close-modal {
+            position: absolute; top: 1rem; right: 1rem; font-size: 1.5rem; color: #999;
+            cursor: pointer; z-index: 10; background: rgba(255,255,255,0.8);
+            border-radius: 50%; width: 40px; height: 40px; display: flex;
+            align-items: center; justify-content: center;
+        }
+        .close-modal:hover { color: var(--primary-pink); }
+        
+        .modal-body { padding: 2rem; }
+        
+        .modal-image {
+            width: 100%; border-radius: 8px; margin-bottom: 1.5rem;
+            max-height: 400px; object-fit: contain;
+        }
+        
+        .feature-list { list-style-type: none; padding: 0; margin: 1rem 0; }
+        .feature-list li {
+            padding: 0.5rem 0; border-bottom: 1px solid #eee; display: flex; align-items: center;
+        }
+        .feature-list li:before {
+            content: "✓"; color: var(--primary-pink); font-weight: bold; margin-right: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .product-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.5rem; }
+            .modal-body { padding: 1.5rem; }
+        }
+        
+        @media (max-width: 480px) {
+            .product-grid { grid-template-columns: 1fr; }
+            .category-filter { flex-direction: column; align-items: center; }
+        }
+    </style>
+</head>
+<body class="bg-white min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header id="header" class="relative bg-primary-blue/5 py-4 px-6 md:px-10 flex justify-between items-center sticky top-0 z-50 shadow-lg backdrop-blur-sm transition-all duration-300">
+        <a href="../index.html#home" class="text-3xl font-extrabold tracking-wider text-black flex items-center gap-2">
+            <img src="beeneologo.png" alt="beeNEO Logo" class="h-12 w-auto" style="object-fit:contain;">
+        </a>
+
+        <!-- Desktop Nav -->
+        <nav class="hidden md:flex items-center space-x-6 lg:space-x-8">
+            <a href="../index.html#home" class="font-semibold text-black hover:text-primary-pink transition-colors duration-300">Ana Sayfa</a>
+
+            <!-- Mega Menu trigger -->
+            <div class="relative group" onmouseenter="showMegaMenu()" onmouseleave="hideMegaMenu()">
+              <button class="font-semibold text-black hover:text-primary-pink transition-colors duration-300 flex items-center">
+                Çözümlerimiz <i class="fas fa-chevron-down ml-1 text-xs"></i>
+              </button>
+            </div>
+
+            <a href="../index.html#about" class="font-semibold text-black hover:text-primary-pink transition-colors duration-300">Hakkımızda</a>
+            <a href="../index.html#contact" class="font-semibold text-black hover:text-primary-pink transition-colors duration-300">İletişim</a>
+            <a href="index.html" class="cta-button-pink text-white font-bold py-2 px-5 rounded-lg shadow-lg">Shop</a>
+        </nav>
+
+        <!-- Mobile hamburger -->
+        <button id="mobile-menu-button" class="md:hidden text-2xl text-black z-50">
+            <i class="fas fa-bars" id="menu-icon"></i>
+        </button>
+
+        <!-- Full-width Mega Menu (inside header, but outside <nav>) -->
+        <div id="mega-menu-wrapper" class="mega-menu-wrapper top-full"
+             onmouseenter="showMegaMenu()" onmouseleave="hideMegaMenu()">
+          <div class="mega-menu">
+            <div class="mega-menu-container">
+              <!-- Mobilite Column -->
+              <div class="mega-menu-column">
+                <h3><i class="fas fa-car-side mr-2"></i> Mobilite</h3>
+                <ul>
+                  <li><a href="#"><i class="fas fa-bolt"></i> Enerji Çözümleri</a></li>
+                  <li><a href="#"><i class="fas fa-cogs"></i> Güç Aktarma Sistemleri</a></li>
+                  <li><a href="#"><i class="fas fa-bicycle"></i> E-Bisiklet Dönüşüm Kitleri</a></li>
+                </ul>
+              </div>
+
+              <!-- Mühendislik Column -->
+              <div class="mega-menu-column">
+                <h3><i class="fas fa-cogs mr-2"></i> Mühendislik</h3>
+                <ul>
+                  <li>
+                    <a href="#"><i class="fas fa-wrench"></i> Mühendislik Çözümleri</a>
+                    <ul class="submenu">
+                      <li><a href="#">Sistem Mühendisliği & Mimari</a></li>
+                      <li><a href="#">Gömülü Sistemler</a></li>
+                    </ul>
+                  </li>
+                  <li><a href="#"><i class="fas fa-vial"></i> Test & Doğrulama (V&V)</a></li>
+                  <li><a href="#"><i class="fas fa-chart-line"></i> Stratejik Danışmanlık</a></li>
+                  <li><a href="#"><i class="fas fa-industry"></i> Prototip ve Üretim</a></li>
+                </ul>
+              </div>
+
+              <!-- Eğitim Column -->
+              <div class="mega-menu-column">
+                <h3><i class="fas fa-graduation-cap mr-2"></i> Eğitim</h3>
+                <ul>
+                  <li><a href="https://ooreneo.com"><i class="fas fa-robot"></i> oOreNEO | FeTeMM ve Robotik</a></li>
+                  <li><a href="#"><i class="fas fa-book-open"></i> sureNEO | Profesyonel Eğitimler</a></li>
+                </ul>
+              </div>
+
+              <!-- Yazılım Araçları Column -->
+              <div class="mega-menu-column">
+                <h3><i class="fas fa-laptop-code mr-2"></i> Yazılım Araçları</h3>
+                <ul>
+                  <li>
+                    <a href="#"><i class="fas fa-puzzle-piece"></i> Wondershare</a>
+                    <ul class="submenu">
+                      <li><a href="#">PDF Çözümleri</a></li>
+                      <li><a href="#">Video Yaratıcılığı</a></li>
+                      <li><a href="#">Yardımcı Programlar</a></li>
+                      <li><a href="#">Şema ve Grafikler</a></li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+
+            </div>
+          </div>
+        </div>
+    </header>
+
+    <nav id="mobile-menu" class="fixed top-0 left-0 w-full h-full bg-primary-blue transform -translate-x-full transition-transform duration-300 z-40 p-6 md:hidden">
+        <div class="flex justify-end mb-4">
+            <button id="mobile-close-button" class="text-white text-3xl">&times;</button>
+        </div>
+        <div class="flex flex-col space-y-4 text-center text-white">
+            <a href="../index.html#home" class="mobile-nav-link text-2xl font-semibold hover:text-primary-pink transition-colors">Ana Sayfa</a>
+            
+                    <div class="relative">
+                <button onclick="toggleMobileDropdown('cozumler-dropdown')" class="mobile-nav-link text-2xl font-semibold hover:text-primary-pink transition-colors flex items-center justify-center w-full" data-toggle="dropdown">
+                    Çözümlerimiz <i class="fas fa-chevron-down ml-2 text-sm"></i>
+                </button>
+                <div id="cozumler-dropdown" class="mobile-dropdown-content mt-2 text-left">
+                    <div class="pl-4">
+                        <h4 class="font-bold text-lg text-primary-pink">Mobilite</h4>
+                        <a href="#" class="block hover:text-primary-pink">Enerji Çözümleri</a>
+                        <a href="#" class="block hover:text-primary-pink">Güç Aktarma Sistemleri</a>
+                        <a href="#" class="block hover:text-primary-pink">E-Bisiklet Dönüşüm Kitleri</a>
+                    </div>
+                    <div class="mt-4 pl-4">
+                        <h4 class="font-bold text-lg text-primary-pink">Mühendislik</h4>
+                        <a href="#" class="block hover:text-primary-pink">Mühendislik Çözümleri</a>
+                        <a href="#" class="block hover:text-primary-pink">Test & Doğrulama (V&V)</a>
+                        <a href="#" class="block hover:text-primary-pink">Stratejik Danışmanlık</a>
+                        <a href="#" class="block hover:text-primary-pink">Prototip ve Üretim</a>
+                    </div>
+                    <div class="mt-4 pl-4">
+                        <h4 class="font-bold text-lg text-primary-pink">Eğitim</h4>
+                        <a href="https://ooreneo.com" class="block hover:text-primary-pink">oOreNEO | FeTeMM ve Robotik</a>
+                        <a href="#" class="block hover:text-primary-pink">sureNEO | Profesyonel Eğitimler</a>
+                    </div>
+                    <div class="mt-4 pl-4">
+                        <h4 class="font-bold text-lg text-primary-pink">Yazılım Araçları</h4>
+                        <a href="#" class="block hover:text-primary-pink">Wondershare</a>
+                    </div>
+                </div>
+            </div>
+    
+            <a href="../index.html#about" class="mobile-nav-link text-2xl font-semibold hover:text-primary-pink transition-colors">Hakkımızda</a>
+            <a href="../index.html#contact" class="mobile-nav-link text-2xl font-semibold hover:text-primary-pink transition-colors">İletişim</a>
+            <a href="index.html" class="mobile-nav-link cta-button-pink text-white font-bold py-3 px-8 rounded-lg shadow-lg">Shop</a>
+        </div>
+    </nav>
+
+    <!-- Main -->
+    <main class="flex-1 py-20 px-6">
+        <div class="max-w-6xl mx-auto">
+            <h1 class="text-4xl font-bold text-primary-blue mb-4 text-center">Wondershare Ürünleri</h1>
+            <p class="text-gray-600 mb-8 text-center">Profesyonel yazılım çözümleri ile işlerinizi kolaylaştırın...</p>
+            
+            <div class="category-filter">
+                <button class="filter-button active" data-category="all">Tüm Ürünler</button>
+                <button class="filter-button" data-category="pdf">PDF Çözümleri</button>
+                <button class="filter-button" data-category="creative">Yaratıcı Araçlar</button>
+                <button class="filter-button" data-category="video">Video Düzenleme</button>
+                <button class="filter-button" data-category="data">Kurtarma & Veri</button>
+            </div>
+
+            <div class="product-grid">
+                <div class="product-card" data-categories="pdf" onclick="openProductModal('pdfelement')"><img class="product-image lazy-image" src="https://placehold.co/400x300/f8f9fa/f8f9fa" data-src="images/PDFout.png" alt="PDFelement" onerror="this.src='https://placehold.co/400x300/003366/ffffff?text=PDFelement'"><div class="product-info"><h3 class="product-title">PDFelement</h3></div></div>
+                <div class="product-card" data-categories="pdf" onclick="openProductModal('document-cloud')"><img class="product-image lazy-image" src="https://placehold.co/400x300/f8f9fa/f8f9fa" data-src="images/Documentout.png" alt="Document Cloud" onerror="this.src='https://placehold.co/400x300/003366/ffffff?text=Document+Cloud'"><div class="product-info"><h3 class="product-title">Document Cloud</h3></div></div>
+                <div class="product-card" data-categories="creative" onclick="openProductModal('edrawmax')"><img class="product-image lazy-image" src="https://placehold.co/400x300/f8f9fa/f8f9fa" data-src="images/EdrawMAXout.JPG" alt="EdrawMax" onerror="this.src='https://placehold.co/400x300/003366/ffffff?text=EdrawMax'"><div class="product-info"><h3 class="product-title">EdrawMax</h3></div></div>
+                <div class="product-card" data-categories="creative" onclick="openProductModal('edrawmind')"><img class="product-image lazy-image" src="https://placehold.co/400x300/f8f9fa/f8f9fa" data-src="images/Mindout.png" alt="EdrawMind" onerror="this.src='https://placehold.co/400x300/003366/ffffff?text=EdrawMind'"><div class="product-info"><h3 class="product-title">EdrawMind</h3></div></div>
+                <div class="product-card" data-categories="creative" onclick="openProductModal('edrawproj')"><img class="product-image lazy-image" src="https://placehold.co/400x300/f8f9fa/f8f9fa" data-src="images/Projout.jpg" alt="EdrawProj" onerror="this.src='https://placehold.co/400x300/003366/ffffff?text=EdrawProj'"><div class="product-info"><h3 class="product-title">EdrawProj</h3></div></div>
+                <!-- Filmora kartını güncelledim -->
+                <div class="product-card" data-categories="video creative" onclick="openProductModal('filmora')"><img class="product-image lazy-image" src="https://placehold.co/400x300/f8f9fa/f8f9fa" data-src="images/Filmora.png" alt="Filmora" onerror="this.src='https://placehold.co/400x300/003366/ffffff?text=Filmora'"><div class="product-info"><h3 class="product-title">Filmora</h3></div></div>
+                <!-- Virbo kartını güncelledim -->
+                <div class="product-card" data-categories="video creative" onclick="openProductModal('virbo')"><img class="product-image lazy-image" src="https://placehold.co/400x300/f8f9fa/f8f9fa" data-src="images/Virbo.jpg" alt="Virbo" onerror="this.src='https://placehold.co/400x300/003366/ffffff?text=Virbo'"><div class="product-info"><h3 class="product-title">Virbo</h3></div></div>
+                <div class="product-card" data-categories="video creative" onclick="openProductModal('democreator')"><img class="product-image lazy-image" src="https://placehold.co/400x300/f8f9fa/f8f9fa" data-src="images/Demo.webp" alt="DemoCreator" onerror="this.src='https://placehold.co/400x300/003366/ffffff?text=DemoCreator'"><div class="product-info"><h3 class="product-title">DemoCreator</h3></div></div>
+                <div class="product-card" data-categories="video" onclick="openProductModal('uniconverter')"><img class="product-image lazy-image" src="https://placehold.co/400x300/f8f9fa/f8f9fa" data-src="images/uniconverter.png" alt="UniConverter" onerror="this.src='https://placehold.co/400x300/003366/ffffff?text=UniConverter'"><div class="product-info"><h3 class="product-title">UniConverter</h3></div></div>
+                <div class="product-card" data-categories="data" onclick="openProductModal('recoverit')"><img class="product-image lazy-image" src="https://placehold.co/400x300/f8f9fa/f8f9fa" data-src="images/recover.webp" alt="Recoverit" onerror="this.src='https://placehold.co/400x300/003366/ffffff?text=Recoverit'"><div class="product-info"><h3 class="product-title">Recoverit</h3></div></div>
+                <div class="product-card" data-categories="data" onclick="openProductModal('dr-fone')"><img class="product-image lazy-image" src="https://placehold.co/400x300/f8f9fa/f8f9fa" data-src="images/foneoutside.png" alt="Dr.Fone" onerror="this.src='https://placehold.co/400x300/003366/ffffff?text=Dr.Fone'"><div class="product-info"><h3 class="product-title">Dr.Fone</h3></div></div>
+                <div class="product-card" data-categories="data" onclick="openProductModal('mobiletrans')"><img class="product-image lazy-image" src="https://placehold.co/400x300/f8f9fa/f8f9fa" data-src="images/Mobil.png" alt="MobileTrans" onerror="this.src='https://placehold.co/400x300/003366/ffffff?text=MobileTrans'"><div class="product-info"><h3 class="product-title">MobileTrans</h3></div></div>
+                <div class="product-card" data-categories="data" onclick="openProductModal('famisafe')"><img class="product-image lazy-image" src="https://placehold.co/400x300/f8f9fa/f8f9fa" data-src="images/Famiout.png" alt="FamiSafe" onerror="this.src='https://placehold.co/400x300/003366/ffffff?text=FamiSafe'"><div class="product-info"><h3 class="product-title">FamiSafe</h3></div></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Product Modals -->
+    <div id="pdfelement-modal" class="product-modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('pdfelement-modal')">&times;</span>
+            <div class="modal-body">
+                <img src="images/pdfinside.webp" alt="PDFelement" class="modal-image" onerror="this.src='https://placehold.co/800x400/003366/ffffff?text=PDFelement'">
+                <h2 class="text-2xl font-bold text-primary-blue mb-4">PDFelement: PDF'lerle Çalışmanın En Akıllı ve Hılı Yolu</h2>
+                <p class="text-gray-700 mb-4">PDFelement, Adobe Acrobat'a güçlü ve uygun maliyetli bir alternatif sunan, hepsi bir arada bir PDF düzenleme yazılımıdır. PDF belgelerini görüntülemekten çok daha fazlasını sunar; metinleri ve görselleri düzenlemenize, PDF oluşturup dönüştürmenize, formları doldurup imzalanmanıza ve belgelerinizi OCR teknolojisi ile taranabilir hale getirmenize olanak tanır.</p>
+                <h3 class="text-xl font-semibold text-primary-blue mb-2">Ana Özellikler:</h3>
+                <ul class="feature-list">
+                    <li>Kapsamlı Düzenleme: Tıpkı bir Word belgesinde olduğu gibi PDF'deki metinleri, görselleri and bağlantıları kolayca düzenleyin.</li>
+                    <li>Dönüştürme and Oluşturma: PDF'leri Word, Excel, PowerPoint and diğer popüler formatlara dönüştürün veya bu formatlardan PDF oluşturun.</li>
+                    <li>OCR (Optik Karakter Tanıma): Taranmış belgeleri and resimleri aranabilir and düzenlenebilir metinlere dönüştürün.</li>
+                    <li>Form Yönetimi: Etkileşimli formlar oluşturun, doldurun, imzalayın and form verilerini kolayca dışa aktarın.</li>
+                    <li>Güvenlik and İş Birliği: Belgelerinizi parola ile koruyun, hassas bilgileri karartın and yorum, not ekleyerek ekip çalışması yapın.</li>
+                </ul>
+                <h3 class="text-xl font-semibold text-primary-blue mt-4 mb-2">Kimler İçin İdeal?</h3>
+                <p class="text-gray-700">İş profesyonelleri, hukuk büroları, finans departmanları, öğrenciler, öğretmenler and dijital dokümanlarla çalışan herkes.</p>
+                <div class="flex justify-center mt-6"><a href="https://wshare.beeneo.com/?s=PDFelement" class="cta-button-pink" target="_blank" rel="noopener noreferrer">Hemen Satın Al</a></div>
+            </div>
+        </div>
+    </div>
+    <div id="document-cloud-modal" class="product-modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('document-cloud-modal')">&times;</span>
+            <div class="modal-body">
+                <img src="images/DocCloudinside.png" alt="Document Cloud" class="modal-image" onerror="this.src='https://placehold.co/800x400/003366/ffffff?text=Document+Cloud'">
+                <h2 class="text-2xl font-bold text-primary-blue mb-4">Document Cloud: Belgeleriniz Güvende, Her Yerden Erişilebilir</h2>
+                <p class="text-gray-700 mb-4">Wondershare Document Cloud, PDF and diğer belgelerinizi güvenli bir şekilde bulutta depolamak, paylaşmak and yönetmek için tasarlanmış bir platformdur. Elektronik imza özelliği ile yasal olarak bağlayıcı imzalar toplayarak iş süreçlerinizi dijitalleştirir and hızlandırır.</p>
+                <h3 class="text-xl font-semibold text-primary-blue mb-2">Ana Özellikler:</h3>
+                <ul class="feature-list">
+                    <li>Güvenli Bulut Depolama: Belgelerinizi endüstri standardı şifreleme ile korunan bulut sunucularında güvenle saklayın.</li>
+                    <li>Elektronik İmza (E-İmza): Belgeleri imza için gönderin, imza sürecini takip edin and yasal olarak geçerli elektronik imzalar toplayın.</li>
+                    <li>Ekip İş Birliği and Yorumlama: Belgeler üzerinde ekibinizle birlikte çalışın, yorumlar ekleyin và revizyonları kolayca yönetin.</li>
+                    <li>Platformlar Arası Erişim: PDFelement and web tarayıcısı üzerinden belgelerinize her yerden, her cihazdan erişin.</li>
+                    <li>Kolay Paylaşım: Belgelerinizi güvenli bir bağlantı veya e-posta yoluyla başkalarıyla kolayca paylaşın, izinleri yönetin.</li>
+                </ul>
+                <h3 class="text-xl font-semibold text-primary-blue mt-4 mb-2">Kimler İçin İdeal?</h3>
+                <p class="text-gray-700">Uzaktan çalışan ekipler, satış departmanları, insan kaynakları uzmanları, serbest çalışanlar and doküman onay süreçlerini dijitalleştirmek isteyen tüm işletmeler.</p>
+                <div class="flex justify-center mt-6"><a href="https://wshare.beeneo.com/?s=Document+Cloud" class="cta-button-pink" target="_blank" rel="noopener noreferrer">Hemen Satın Al</a></div>
+            </div>
+        </div>
+    </div>
+    <div id="edrawmax-modal" class="product-modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('edrawmax-modal')">&times;</span>
+            <div class="modal-body">
+                <img src="images/Maxinside.png" alt="EdrawMax" class="modal-image" onerror="this.src='https://placehold.co/800x400/003366/ffffff?text=EdrawMax'">
+                <h2 class="text-2xl font-bold text-primary-blue mb-4">EdrawMax: Tüm Diyagram İhtiyaçlarınız İçin Tek Bir Platform</h2>
+                <p class="text-gray-700 mb-4">EdrawMax, akış şemalarından organizasyon şemalarına, kat planlarından ağ diyagramlarına kadar 280'den fazla diyagram türünü kolayca oluşturmanıza sağlayan çok yönlü bir görselleştirme aracıdır. Zengin şablon kütüphanesi and sezgisel arayüzü sayesinde, karmaşık bilgileri and süreçleri anlaşılır and profesyonel görünümlü diyagramlara dönüştürmek hiç bu kadar kolay olmamıştı.</p>
+                <h3 class="text-xl font-semibold text-primary-blue mb-2">Ana Özellikler:</h3>
+                <ul class="feature-list">
+                    <li>280+ Diyagram Türü: Akış şemaları, zihin haritaları, Gantt şemaları, UML diyagramları, elektrik devreleri and daha fazlasını tek bir yazılımda çizin.</li>
+                    <li>Zengin Şablon and Sembol Kütüphanesi: Binlerce profesyonelce tasarlanmış şablon and endüstri standardı sembollerle işe hızlı başlayın.</li>
+                    <li>Geniş Uyumluluk: Visio dosyalarını içe and dışa aktarın. Diyagramlarınızı PDF, Word, Excel, PowerPoint and popüler resim formatlarında kaydedin.</li>
+                    <li>Platformlar Arası Çalışma: Windows, macOS, Linux and Web üzerinde çalışarak projelerinize her yerden erişin.</li>
+                    <li>Ekip Çalışması: Projelerinizi bulutta saklayın and ekip arkadaşlarınızla gerçek zamanlı olarak iş birliği yapın.</li>
+                </ul>
+                <h3 class="text-xl font-semibold text-primary-blue mt-4 mb-2">Kimler İçin İdeal?</h3>
+                <p class="text-gray-700">İş analistleri, proje yöneticileri, mühendisler, yazılım geliştiriciler, eğitimciler, öğrenciler and süreçlerini görselleştirmek isteyen herkes. </p>
+                <div class="flex justify-center mt-6"><a href="https://wshare.beeneo.com/?s=EdrawMax" class="cta-button-pink" target="_blank" rel="noopener noreferrer">Hemen Satın Al</a></div>
+            </div>
+        </div>
+    </div>
+    <div id="edrawmind-modal" class="product-modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('edrawmind-modal')">&times;</span>
+            <div class="modal-body">
+                <img src="images/Mindinside.png" alt="EdrawMind" class="modal-image" onerror="this.src='https://placehold.co/800x400/003366/ffffff?text=EdrawMind'">
+                <h2 class="text-2xl font-bold text-primary-blue mb-4">EdrawMind: Fikirlerinizi Yapılandırın, Yaratıcılığınızı Serbest Bırakın</h2>
+                <p class="text-gray-700 mb-4">EdrawMind, beyin fırtınası yapmak, not almak, proje planlamak and karmaşık bilgileri yapılandırmak için tasarlanmış profesyonel bir zihin haritalama aracıdır. Fikirlerinizi görsel bir haritaya dökerek bağlantıları daha net görmenizi, daha organize düşünmenizi and sunumlarınızı daha etkili hale getirmenizi sağlar.</p>
+                <h3 class="text-xl font-semibold text-primary-blue mb-2">Ana Özellikler:</h3>
+                <ul class="feature-list">
+                    <li>Çoklu Düzen Seçenekleri: Klasik zihin haritası, zaman çizelgesi, balık kılçığı diyagramı and dikey/yatay şemalar gibi farklı düzenler arasından seçim yapın.</li>
+                    <li>Beyin Fırtınası Modu: Fikirlerinizi serbestçe bir araya getirin and daha sonra kolayca organize edin.</li>
+                    <li>Gantt Şeması Görünümü: Zihin haritanızdaki görevleri tek tıkla bir proje planına and Gantt şemasına dönüştürün.</li>
+                    <li>Sunum Modu: Zihin haritanızı otomatik olarak dinamik and etkileşimli slaytlara dönüştürerek sunum yapın.</li>
+                    <li>Platformlar Arası Senkronizasyon: Projelerinize masaüstü, mobil and web platformlarından erişin and senkronize bir şekilde çalışın.</li>
+                </ul>
+                <h3 class="text-xl font-semibold text-primary-blue mt-4 mb-2">Kimler İçin İdeal?</h3>
+                <p class="text-gray-700">Proje yöneticileri, öğrenciler, öğretmenler, yazarlar, stratejistler, iş geliştirme uzmanları and yaratıcı düşünme süreçlerini geliştirmek isteyen herkes. </p>
+                <div class="flex justify-center mt-6"><a href="https://wshare.beeneo.com/?s=EdrawMind" class="cta-button-pink" target="_blank" rel="noopener noreferrer">Hemen Satın Al</a></div>
+            </div>
+        </div>
+    </div>
+    <!-- Filmora modalını güncelledim -->
+    <div id="filmora-modal" class="product-modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('filmora-modal')">&times;</span>
+            <div class="modal-body">
+                <img src="images/Filmorainside.png" alt="Filmora Kutu Resmi" class="modal-image" onerror="this.src='https://placehold.co/800x400/003366/ffffff?text=Filmora'">
+                <h2 class="text-2xl font-bold text-primary-blue mb-4">Filmora: Profesyonel Kalitede Videolar, Zahmetsizce</h2>
+                <p class="text-gray-700 mb-4">Filmora, video düzenlemeyi herkes için erıilebilir kılan, güçlü and sezgisel bir video düzenleme yazılımıdır. İster sosyal medya için hızlı bir video hazırlıyor, ister bir YouTube kanalı yönetiyor, isterseniz de kurumsal bir sunum videosu oluşturuyor olun, Filmora'nın zengin efekt kütüphanesi, yapay zeka destekli araçları and sürükle-bırak kolaylığı sunan arayüzü ile yaratıcılığınızı kolayca hayata geçirebilirsiniz.</p>
+                <h3 class="text-xl font-semibold text-primary-blue mb-2">Ana Özellikler:</h3>
+                <ul class="feature-list">
+                    <li>Sezgisel Arayüz: Karmaşık menüler olmadan, sürükle-bırak mantığıyla kolayca video düzenleyin.</li>
+                    <li>Zengin Efekt Kütüphanesi: Başlıklar, geçişler, filtreler and özel efektlerle videolarınıza profesyonel bir dokunuş katın.</li>
+                    <li>Yapay Zeka Araçları: Akıllı Kesme (AI Smart Cutout), Ses Esnetme (AI Audio Stretch) and Gürültü Azaltma gibi yapay zeka özellikleriyle zamandan kazanın.</li>
+                    <li>Ekran Kaydı: Sunumlar, oyun videoları and eğitim materyalleri için ekranınızı and web kameranızı aynı anda kaydedin.</li>
+                    <li>Gelişmiş Renk Düzenleme: Videolarınızın renk tonunu and atmosferini profesyonel araçlarla istediğiniz gibi ayarlayın.</li>
+                </ul>
+                <h3 class="text-xl font-semibold text-primary-blue mt-4 mb-2">Kimler İçin İdeal?</h3>
+                <p class="text-gray-700">İçerik üreticileri, YouTuber'lar, sosyal medya yöneticileri, pazarlama uzmanları, eğitimciler and video düzenlemeye yeni başlayan herkes. </p>
+                <div class="flex justify-center mt-6"><a href="https://wshare.beeneo.com/?s=Filmora" class="cta-button-pink" target="_blank" rel="noopener noreferrer">Hemen Satın Al</a></div>
+            </div>
+        </div>
+    </div>
+    <!-- Virbo modalını güncelledim -->
+    <div id="virbo-modal" class="product-modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('virbo-modal')">&times;</span>
+            <div class="modal-body">
+                <img src="images/virbo.webp" alt="Virbo" class="modal-image" onerror="this.src='https://placehold.co/800x400/003366/ffffff?text=Virbo'">
+                <h2 class="text-2xl font-bold text-primary-blue mb-4">Virbo: Metinlerinizi Anında AI Videolarına Dönüştürün</h2>
+                <p class="text-gray-700 mb-4">Wondershare Virbo, yazdığınız metinleri saniyeler içinde gerçekçi yapay zeka avatarları and doğal seslendirmelerle videoya dönüştüren yenilikçi bir AI video oluşturma aracıdır. Pazarlama içeriklerinden eğitim videolarına, sosyal medya paylaşımlarından kurumsal tanıtımlara kadar farklı alanlarda etkili, profesyonel and hızlı içerik üretmenizi sağlar.</p>
+                <h3 class="text-xl font-semibold text-primary-blue mb-2">Ana Özellikler:</h3>
+                <ul class="feature-list">
+                    <li>Metinden Videoya Dönüşüm: Yazdığınız metinleri anında gerçekçi AI avatarlarıyla videoya çevirin.</li>
+                    <li>AI Destekli Senaryo Yazımı and Ses Klonlama: Metin yazımına yardımcı olan yapay zeka ile özgün senaryolar hazırlayın, sesinizi klonlayarak kişisel dokunuş ekleyin.</li>
+                    <li>Çok Dilli Destek: Videolarınızı birden fazla dile otomatik olarak çevirin and küresel erişim sağlayın.</li>
+                    <li>Zengin İçerik Kütüphanesi: Geniş şablonlar, stok videolar and görsellerle üretim sürecinizi hızlandırın.</li>
+                    <li>Marka Uyumluluğu: Logonuz, renk paletiniz and kimliğinizle uyumlu videolar oluşturun.</li>
+                </ul>
+                <h3 class="text-xl font-semibold text-primary-blue mt-4 mb-2">Kimler İçin İdeal?</h3>
+                <p class="text-gray-700">Pazarlama uzmanları, eğitimciler, sosyal medya içerik üreticileri, startup kurucuları and kısa sürede profesyonel video üretmek isteyen herkes.</p>
+                <div class="flex justify-center mt-6"><a href="https://wshare.beeneo.com/?s=Virbo" class="cta-button-pink" target="_blank" rel="noopener noreferrer">Hemen Satın Al</a></div>
+            </div>
+        </div>
+    </div>
+    <div id="uniconverter-modal" class="product-modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('uniconverter-modal')">&times;</span>
+            <div class="modal-body">
+                <img src="images/uniconin.png" alt="UniConverter" class="modal-image" onerror="this.src='https://placehold.co/800x400/003366/ffffff?text=UniConverter'">
+                <h2 class="text-2xl font-bold text-primary-blue mb-4">UniConverter: Tüm Medya İhtiyaçlarınız İçin Tek Çözüm</h2>
+                <p class="text-gray-700 mb-4">Wondershare UniConverter, bir video dönüştürücüden çok daha fazlasıdır. 1000'den fazla format desteği, ultra yüksek hızda dönüştürme, video sıkıştırma, indirme, temel düzenleme and DVD yazma gibi özellikleriyle tam bir medya araç kutusudur. Farklı cihazlar and platformlar arasındaki format uyumsuzluklarını ortadan kaldırarak iş akışınızı hızlandırır.</p>
+                <h3 class="text-xl font-semibold text-primary-blue mb-2">Ana Özellikler:</h3>
+                <ul class="feature-list">
+                    <li>Geniş Format Desteği: 1000'den fazla video and ses formatı arasında kayıpsız dönüştürme yapın.</li>
+                    <li>Yüksek Hızda İşlem: Donanım hızlandırma teknolojisi sayesinde rakiplerinden kat kat daha hızlı çalışır.</li>
+                    <li>Video Sıkıştırma: Kalite kaybı olmadan video dosyalarınızın boyutunu küçülterek depolama and paylaşımı kolaylaştırın.</li>
+                    <li>Video İndirici: Popüler platformlardan tek tıkla video and ses indirin.</li>
+                    <li>Ek Araçlar: Ekran kaydedici, GIF oluşturucu, altyazı editörü and DVD/Blu-ray yazıcı gibi birçok ek araca sahiptir.</li>
+                </ul>
+                <h3 class="text-xl font-semibold text-primary-blue mt-4 mb-2">Kimler İçin İdeal?</h3>
+                <p class="text-gray-700">Videograflar, pazarlama ekipleri, eğitim kurumları and farklı formatlardaki medya dosyalarıyla sıkça çalışan tüm profesyoneller.</p>
+                <div class="flex justify-center mt-6"><a href="https://wshare.beeneo.com/?s=UniConverter" class="cta-button-pink" target="_blank" rel="noopener noreferrer">Hemen Satın Al</a></div>
+            </div>
+        </div>
+    </div>
+    <div id="recoverit-modal" class="product-modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('recoverit-modal')">&times;</span>
+            <div class="modal-body">
+                <img src="images/reco.png" alt="Recoverit" class="modal-image" onerror="this.src='https://placehold.co/800x400/003366/ffffff?text=Recoverit'">
+                <h2 class="text-2xl font-bold text-primary-blue mb-4">Recoverit: Kaybettiğiniz Verileri Güvenle Geri Getirin</h2>
+                <p class="text-gray-700 mb-4">Wondershare Recoverit, Her türlü veri kaybı senaryosuna karşı güçlü bir çözümdür. Bilgisayarınızdan, harici disklerden, SD kartlardan, drone'lardan and hatta bozuk video dosyalarından silinmiş, formatlanmış veya kaybolmuş verilerinizi yüksek başarı oranıyla kurtarır. Gelişmiş tarama algoritmaları sayesinde en zorlu durumlarda bile dosyalarınıza yeniden kavuşmanızı sağlar.</p>
+                <h3 class="text-xl font-semibold text-primary-blue mb-2">Ana Özellikler:</h3>
+                <ul class="feature-list">
+                    <li>Kapsamlı Dosya Desteği: 1000'den fazla dosya türünü (fotoğraf, video, belge, e-posta vb.) destekler.</li>
+                    <li>Tüm Cihazlardan Kurtarma: PC/Mac, hard disk (HDD/SSD), USB bellek, hafıza kartı, dijital kamera and daha fazlasından veri kurtarır.</li>
+                    <li>Gelişmiş Video Kurtarma: Patentli teknolojisi sayesinde parçalanmış, bozulmuş veya hasar görmüş Ultra HD, 4K/8K video dosyalarını birleştirir and onarır.</li>
+                    <li>Çökmüş Sistemden Kurtarma: Açılmayan veya çöken bilgisayarlardan veri kurtarmak için önyüklenebilir bir medya oluşturur.</li>
+                    <li>Önizleme Fonksiyonu: Kurtarma işleminden önce bulunan dosyaları önizleyerek sadece ihtiyacınız olanları geri yüklemenizi sağlar.</li>
+                </ul>
+                <h3 class="text-xl font-semibold text-primary-blue mt-4 mb-2">Kimler İçin İdeal?</h3>
+                <p class="text-gray-700">Fotoğrafçılar, videograflar, öğrenciler, ofis çalışanları and önemli dosyalarını kaybeden tüm bireysel and kurumsal kullanıcılar. </p>
+                <div class="flex justify-center mt-6"><a href="https://wshare.beeneo.com/?s=Recoverit" class="cta-button-pink" target="_blank" rel="noopener noreferrer">Hemen Satın Al</a></div>
+            </div>
+        </div>
+    </div>
+    <div id="dr-fone-modal" class="product-modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('dr-fone-modal')">&times;</span>
+            <div class="modal-body">
+                <img src="images/Dr.Foneinside.webp" alt="Dr.Fone" class="modal-image" onerror="this.src='https://placehold.co/800x400/003366/ffffff?text=Dr.Fone'">
+                <h2 class="text-2xl font-bold text-primary-blue mb-4">Dr.Fone: Mobil Cihazınız İçin Eksiksiz Çözüm Paketi</h2>
+                <p class="text-gray-700 mb-4">Dr.Fone, akıllı telefonunuzla ilgili karşılaşabileceğiniz hemen hemen her sorunu çözmek için tasarlanmış kapsamlı bir araç setidır. Silinen verileri kurtarmaktan sistem hatalarını onarmaya, telefonlar arası veri aktarımından ekran kilidini açmaya kadar birçok kritik işlemi basit adımlarla gerçekleştirmenizi sağlar.</p>
+                <h3 class="text-xl font-semibold text-primary-blue mb-2">Ana Özellikler:</h3>
+                <ul class="feature-list">
+                    <li>Veri Kurtarma: Yanlışlıkla silinen fotoğrafları, videoları, kişileri, mesajları and daha fazlasını doğrudan telefonunuzdan kurtarın.</li>
+                    <li>Sistem Onarımı: Donma, açılmama, logo takılması gibi iOS and Android sistem sorunlarını veri kaybı olmadan onarın.</li>
+                    <li>Telefon Yönetimi: Bilgisayarınız üzerinden telefonunuzdaki verileri (fotoğraf, video, müzik, kişiler) kolayca yönetin, yedekleyin and geri yükleyin.</li>
+                    <li>Ekran Kilidi Açma: Unutulan parola, desen veya parmak izi kilitlerini kaldırın.</li>
+                    <li>WhatsApp Aktarımı: WhatsApp sohbetlerinizi iOS and Android cihazlar arasında sorunsuzca aktarın, yedekleyin and geri yükleyin.</li>
+                </ul>
+                <h3 class="text-xl font-semibold text-primary-blue mt-4 mb-2">Kimler İçin İdeal?</h3>
+                <p class="text-gray-700">Tüm akıllı telefon kullanıcıları, çocuklarının telefon verilerini yönetmek isteyen ebeveynler and müşterilerine teknik destek sağlayan profesyoneller. </p>
+                <div class="flex justify-center mt-6"><a href="https://wshare.beeneo.com/?s=Dr.Fone" class="cta-button-pink" target="_blank" rel="noopener noreferrer">Hemen Satın Al</a></div>
+            </div>
+        </div>
+    </div>
+    <div id="democreator-modal" class="product-modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('democreator-modal')">&times;</span>
+            <div class="modal-body">
+                <img src="images/indir.jpg" alt="DemoCreator" class="modal-image" onerror="this.src='https://placehold.co/800x400/003366/ffffff?text=DemoCreator'">
+                <h2 class="text-2xl font-bold text-primary-blue mb-4">DemoCreator: Etkileyici Eğitim and Sunum Videoları Oluşturun</h2>
+                <p class="text-gray-700 mb-4">DemoCreator, ekran kaydı, sunum and video düzenlemeyi tek một platformda birleştiren hepsi bir arada bir araçtır. Eğitimciler, kurumsal eğitmenler and ürün tanıtımı yapan profesyoneller için özel olarak tasarlanmıştır. Sanal avatarlar, zengin çizim araçları and interaktif sunum özellikleri ile izleyicilerinizin dikkatini her zaman canlı tutun.</p>
+                <h3 class="text-xl font-semibold text-primary-blue mb-2">Ana Özellikler:</h3>
+                <ul class="feature-list">
+                    <li>Yüksek Kalitede Ekran Kaydı: Sistem sesi, mikrofon and web kamerası ile birlikte ekranınızın tamamını veya bir bölümünü 4K kalitesinde kaydedin.</li>
+                    <li>Sanal Avatar Sunumları: Gerçek zamanlı olarak hareketlerinizi taklit eden sanal avatarlar kullanarak sunumlarınızı daha dinamik hale getirin.</li>
+                    <li>Video Sunum Modu: PowerPoint slaytlarınızı içe aktarın and sunum yaparken kendinizi de videoya ekleyin.</li>
+                    <li>Zengin Çizim and Not Araçları: Kayıt sırasında ekran üzerine çizim yapın, metin ekleyin and önemli noktaları vurgulayın.</li>
+                    <li>Dahili Video Editörü: Kaydettiğiniz videoları kesme, birleştirme, efekt ekleme gibi temel düzenleme araçlarıyla profesyonelleştirin.</li>
+                </ul>
+                <h3 class="text-xl font-semibold text-primary-blue mt-4 mb-2">Kimler İçin İdeal?</h3>
+                <p class="text-gray-700">Eğitimciler, öğretmenler, kurumsal eğitmenler, ürün yöneticileri, teknik destek uzmanları and online kurs hazırlayanlar.</p>
+                <div class="flex justify-center mt-6"><a href="https://wshare.beeneo.com/?s=DemoCreator" class="cta-button-pink" target="_blank" rel="noopener noreferrer">Hemen Satın Al</a></div>
+            </div>
+        </div>
+    </div>
+    <div id="edrawproj-modal" class="product-modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('edrawproj-modal')">&times;</span>
+            <div class="modal-body">
+                <img src="images/Proj.png" alt="EdrawProj" class="modal-image" onerror="this.src='https://placehold.co/800x400/003366/ffffff?text=EdrawProj'">
+                <h2 class="text-2xl font-bold text-primary-blue mb-4">EdrawProj: Projelerinizi Kolayca Planlayın and Takip Edin</h2>
+                <p class="text-gray-700 mb-4">EdrawProj, proje planlama, görev atama, kaynak yönetimi and ilerleme takibi için tasarlanmış kullanıçı dostu bir proje yönetimi yazılımıdır. Gantt şemaları oluşturmayı basitleştirerek, projelerinizin zamanında and bütçe dahilinde tamamlanmasını sağlamak için gerekli tüm araçları sunar.</p>
+                <h3 class="text-xl font-semibold text-primary-blue mb-2">Ana Özellikler:</h3>
+                <ul class="feature-list">
+                    <li>Sezgisel Gantt Şemaları: Sürükle-bırak arayüzü ile kolayca görevler oluşturun, sürelerini ayarlayın and görevler arası bağımlılıklar kurın.</li>
+                    <li>Kaynak Yönetimi: Proje kaynaklarını (insan, malzeme, bütçe) atayın and kullanım oranlarını takip ederek verimliliği artırın.</li>
+                    <li>İlerleme Takibi and Raporlama: Projenin genel ilerlemesini görsel olarak takip edin and paydaşlar için tek tıkla profesyonel raporlar oluşturun.</li>
+                    <li>Bütçe Yönetimi: Her görev için maliyetleri planlayın and proje boyunca bütçeyi kontrol altında tutın.</li>
+                    <li>Ekip İş Birliği: Proje dosyalarınışınızı bulutta paylaşarak ekibinizin her zaman en güncel plan üzerinde çalışmasını sağlayın.</li>
+                </ul>
+                <h3 class="text-xl font-semibold text-primary-blue mt-4 mb-2">Kimler İçin İdeal?</h3>
+                <p class="text-gray-700">Proje yöneticileri, ekip liderleri, operasyon müdürleri, etkinlik organizatörleri and küçük and orta ölçekli işletme sahipleri.</p>
+                <div class="flex justify-center mt-6"><a href="https://wshare.beeneo.com/?s=EdrawProj" class="cta-button-pink" target="_blank" rel="noopener noreferrer">Hemen Satın Al</a></div>
+            </div>
+        </div>
+    </div>
+    <div id="mobiletrans-modal" class="product-modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('mobiletrans-modal')">&times;</span>
+            <div class="modal-body">
+                <img src="images/Mobileinside.png" alt="MobileTrans" class="modal-image" onerror="this.src='https://placehold.co/800x400/003366/ffffff?text=MobileTrans'">
+                <h2 class="text-2xl font-bold text-primary-blue mb-4">MobileTrans: Telefon Değiştirmek Artık Çok Kolay</h2>
+                <p class="text-gray-700 mb-4">MobileTrans, yeni bir telefona geçerken veri aktarım sürecini inanılmaz derecede basitleştiren bir yazılımdır. Platform fark etmeksizin (iOS'tan Android'e, Android'den iOS'a veya aynı platformlar arasında) kişiler, mesajlar, fotoğraflar, uygulamalar and diğer tüm önemli verilerinizi tek bir tıklama ile aktarmanızı sağlar.</p>
+                <h3 class="text-xl font-semibold text-primary-blue mb-2">Ana Özellikler:</h3>
+                <ul class="feature-list">
+                    <li>Platformlar Arası Aktarım: iOS and Android arasında 18'den fazla veri türünü sorunsuzca aktarın.</li>
+                    <li>Tek Tıkla Aktarım: Karmaşık adımlar olmadan, tüm süreci tek bir tıklama ile güvenli and hızlı bir şekilde tamamlayın.</li>
+                    <li>WhatsApp Aktarımı: WhatsApp and diğer sosyal uygulama (WeChat, LINE, Viber vb.) sohbet geçmişinizi and eklerini yeni telefonunuza taşıyın.</li>
+                    <li>Yedekleme and Geri Yükleme: Telefonunuzdaki verileri bilgisayarınıza yedekleyin and ihtiyaç duyduğunuzda kolayca geri yükleyin.</li>
+                    <li>Güvenli and Doğrudan: Verileriniz asla buluta yüklenmez; aktarım doğrudan iki cihaz arasında gerçekleşir.</li>
+                </ul>
+                <h3 class="text-xl font-semibold text-primary-blue mt-4 mb-2">Kimler İçin İdeal?</h3>
+                <p class="text-gray-700">Yeni bir akıllı telefon alan, farklı işletim sistemleri arasında geçiş yapan veya telefon verilerini güvenli bir şekilde yedeklemek isteyen herkes. </p>
+                <div class="flex justify-center mt-6"><a href="https://wshare.beeneo.com/?s=MobileTrans" class="cta-button-pink" target="_blank" rel="noopener noreferrer">Hemen Satın Al</a></div>
+            </div>
+        </div>
+    </div>
+    <div id="famisafe-modal" class="product-modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('famisafe-modal')">&times;</span>
+            <div class="modal-body">
+                <img src="images/Famiinside.webp" alt="FamiSafe" class="modal-image" onerror="this.src='https://placehold.co/800x400/003366/ffffff?text=FamiSafe'">
+                <h2 class="text-2xl font-bold text-primary-blue mb-4">FamiSafe: Dijital Dünyada Çocuklarınızı Güvende Tutun</h2>
+                <p class="text-gray-700 mb-4">FamiSafe, ebeveynlerin çocuklarının dijital alışkanlıklarını yönetmelerine and onları çevrimiçi tehditlerden korumalarına yardımcı olan kapsamlı bir ebeveyn kontrol yazılımıdır. Konum takibi, ekran süresi sınırlaması, web sitesi filtreleme and şüpheli içerik tespiti gibi özelliklerle ailenizin dijital güvenliğini sağlar.</p>
+                <h3 class="text-xl font-semibold text-primary-blue mb-2">Ana Özellikler:</h3>
+                <ul class="feature-list">
+                    <li>Ekran Süresi Yönetimi: Çocuklarınızın hangi uygulamalarda ne kadar zaman geçirdiğini görün and sağlıklı sınırlar koyın.</li>
+                    <li>Gerçek Zamanlı Konum Takibi: Çocuğunuzın anlık konumunu harita üzerinde görün and güvenli alanlar (Geofence) belirleyerek bu alanlara girdiğinde veya çıktığında bildirim alın.</li>
+                    <li>Web Filtreleme and Tarayıcı Geçmişi: Uygunsuz web sitelerini engelleyin and çocuğunuzun internet tarama geçmişini kontrol edin.</li>
+                    <li>Şüpheli İçerik Tespiti: Sosyal medya and mesajlaşma uygulamalarında siber zorbalık, uygunsuz içerik and tehlikeli konuşmaları belirleyen akıllı uyarılar alın.</li>
+                    <li>Uygulama Engelleyici: Belirlı uygulamaları veya oyunları tamamen engelleyin veya kullanım sürelerini kısıtlayın. </li>
+                </ul>
+                <h3 class="text-xl font-semibold text-primary-blue mt-4 mb-2">Kimler İçin İdeal?</h3>
+                <p class="text-gray-700">Çocuklarının dijital güvenliğini and refahını önemseyen tüm ebeveynler</p>
+                <div class="flex justify-center mt-6"><a href="https://wshare.beeneo.com/?s=FamiSafe" class="cta-button-pink" target="_blank" rel="noopener noreferrer">Hemen Satın Al</a></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-primary-blue text-white py-8">
+        <div class="container mx-auto px-6 text-center">
+            <p>&copy; <span id="current-year"></span> beeNEO | Tüm Hakları Saklıdır.</p>
+            <div class="mt-4 space-x-4">
+                <a href="#" class="hover:text-primary-pink transition-colors"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#" class="hover:text-primary-pink transition-colors"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="hover:text-primary-pink transition-colors"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // --- Global Helper Functions ---
+        function openProductModal(productId) {
+            const modal = document.getElementById(`${productId}-modal`);
+            if (modal) {
+                modal.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+            }
+        }
+        
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // Mega Menu functionality
+        let megaMenuTimeout;
+        function showMegaMenu() {
+            clearTimeout(megaMenuTimeout);
+            const megaMenuWrapper = document.getElementById('mega-menu-wrapper');
+            if (!megaMenuWrapper) return;
+            megaMenuWrapper.classList.add('active');
+        }
+        function hideMegaMenu() {
+            megaMenuTimeout = setTimeout(() => {
+                const megaMenuWrapper = document.getElementById('mega-menu-wrapper');
+                if (!megaMenuWrapper) return;
+                megaMenuWrapper.classList.remove('active');
+            }, 200);
+        }
+
+        // Keep mega menu open when hovering over it
+        document.getElementById('mega-menu-wrapper')?.addEventListener('mouseenter', () => {
+            clearTimeout(megaMenuTimeout);
+        });
+        document.getElementById('mega-menu-wrapper')?.addEventListener('mouseleave', () => {
+            hideMegaMenu();
+        });
+
+        // Mobile helpers
+        function toggleMobileDropdown(id) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            el.style.display = (el.style.display === 'block') ? 'none' : 'block';
+        }
+        
+        function closeMobileMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu?.classList.remove('translate-x-0');
+            mobileMenu?.classList.add('-translate-x-full');
+            document.body.classList.remove('menu-open');
+        }
+
+        // Mobile menu functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const closeBtn = document.getElementById('mobile-close-button');
+            const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+
+            mobileMenuButton?.addEventListener('click', () => {
+                mobileMenu?.classList.toggle('translate-x-0');
+                mobileMenu?.classList.toggle('-translate-x-full');
+                document.body.classList.toggle('menu-open');
+            });
+
+            closeBtn?.addEventListener('click', closeMobileMenu);
+
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    if (link.dataset.toggle === 'dropdown') {
+                        e.preventDefault();
+                        return;
+                    }
+                    closeMobileMenu();
+                });
+            });
+
+            // Set current year in footer
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+
+            // Lazy Loading for Images
+            const lazyImages = document.querySelectorAll('.lazy-image');
+            if ("IntersectionObserver" in window) {
+                let observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            let img = entry.target;
+                            img.src = img.dataset.src;
+                            img.classList.remove("lazy-image");
+                            observer.unobserve(img);
+                        }
+                    });
+                });
+                lazyImages.forEach(img => observer.observe(img));
+            } else {
+                lazyImages.forEach(img => img.src = img.dataset.src);
+            }
+
+            // Category filtering with animation
+            const filterButtons = document.querySelectorAll('.filter-button');
+            const productCards = document.querySelectorAll('.product-card');
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const category = button.getAttribute('data-category');
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    
+                    productCards.forEach(card => {
+                        const cardCategories = card.getAttribute('data-categories');
+                        const shouldBeVisible = category === 'all' || (cardCategories && cardCategories.includes(category));
+                        if (shouldBeVisible) {
+                            card.style.display = 'flex';
+                            setTimeout(() => card.classList.remove('is-hidden'), 10);
+                        } else {
+                            card.classList.add('is-hidden');
+                            setTimeout(() => card.style.display = 'none', 300);
+                        }
+                    });
+                });
+            });
+        });
+
+        // Close modal on outside click
+        window.onclick = function(event) {
+            if (event.target.classList.contains('product-modal')) {
+                event.target.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        }
+        
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "Escape") {
+                const modals = document.getElementsByClassName('product-modal');
+                for (let i = 0; i < modals.length; i++) {
+                    if (modals[i].style.display === 'block') {
+                        modals[i].style.display = 'none';
+                    }
+                }
+                document.body.style.overflow = 'auto';
+            }
+        });
+    </script>
+</body>
+</html>

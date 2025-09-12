@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Batarya Onarım ve Yenileştirme Çözümleri - biz beeNEO</title>
+    
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+    <style>
+        :root {
+            --primary-blue: #003366;
+            --primary-pink: #E30044;
+            --light-gray: #f8f9fa;
+            --dark-gray: #1a202c;
+        }
+
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--dark-gray);
+            background-color: #fff;
+        }
+
+        .bg-primary-blue { background-color: var(--primary-blue); }
+        .text-primary-blue { color: var(--primary-blue); }
+        .text-primary-pink { color: var(--primary-pink); }
+        .bg-primary-pink { background-color: var(--primary-pink); }
+
+        .cta-button-pink {
+            background-color: var(--primary-pink);
+            color: #fff;
+            font-weight: 700;
+            padding: .75rem 1.5rem;
+            border-radius: .5rem;
+            display: inline-block;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+            transition: background-color .3s, transform .3s, box-shadow .3s;
+        }
+        .cta-button-pink:hover {
+            background-color: #c00039;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.18);
+        }
+
+        .swoosh-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        .swoosh-bg::before {
+            content: '';
+            position: absolute;
+            top: -20%;
+            left: -10%;
+            width: 120%;
+            height: 90%;
+            background: #f0f8ff; /* Light blue instead of green */
+            border-radius: 0 0 50% 50%;
+            z-index: -1;
+        }
+
+        /* Wide Mega Menu Styles */
+        .mega-menu-wrapper {
+            position: absolute;
+            left: 0;
+            right: 0;
+            width: 100%;
+            display: none;
+            z-index: 100;
+            padding-top: 1rem;
+        }
+        .mega-menu-wrapper.active { display: block; }
+        .mega-menu {
+            background: white;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border-top: 1px solid #e5e7eb;
+            padding: 2.5rem 0;
+            width: 100%;
+        }
+        .mega-menu-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2.5rem;
+        }
+        .mega-menu-column { display: flex; flex-direction: column; }
+        .mega-menu-column h3 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--primary-pink);
+        }
+        .mega-menu-column ul { list-style: none; padding: 0; margin: 0; }
+        .mega-menu-column ul li { margin-bottom: 0.875rem; }
+        .mega-menu-column ul li a {
+            color: var(--dark-gray);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 0;
+            font-size: 0.95rem;
+        }
+        
+        .mega-menu-column ul li a:hover { color: var(--primary-pink); transform: translateX(5px); }
+        .mega-menu-column ul li a i { margin-right: 0.75rem; font-size: 1rem; width: 20px; text-align: center; }
+        .mega-menu-column .submenu { padding-left: 1.75rem; margin-top: 0.5rem; }
+        .mega-menu-column .submenu li { margin-bottom: 0.625rem; font-size: 0.9rem; }
+        .mega-menu-column .submenu li a { color: #64748b; font-weight: 500; }
+        .mega-menu-column .submenu li a:hover { color: var(--primary-pink); }
+
+        /* Mobile helpers */
+        #mobile-menu { transition: transform 0.3s ease-in-out; }
+        body.menu-open { overflow: hidden; }
+
+        .mobile-dropdown-content { display: none; padding-left: 20px; }
+        .mobile-dropdown-content a { display: block; padding: 10px 0; color: white; text-decoration: none; }
+        .mobile-dropdown-content .submenu { padding-left: 20px; }
+        .mobile-dropdown-content .submenu a { font-size: 0.9rem; color: #ddd; }
+    </style>
+</head>
+<body class="bg-white min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header id="header" class="relative bg-primary-blue/5 py-4 px-6 md:px-10 flex justify-between items-center sticky top-0 z-50 shadow-lg backdrop-blur-sm transition-all duration-300">
+        <a href="../index.html#home" class="text-3xl font-extrabold tracking-wider text-black flex items-center gap-2">
+            <img src="beeneologo.png" alt="beeNEO Logo" class="h-12 w-auto" style="object-fit:contain;">
+        </a>
+
+        <!-- Desktop Nav -->
+        <nav class="hidden md:flex items-center space-x-6 lg:space-x-8">
+            <a href="../index.html#home" class="font-semibold text-black hover:text-primary-pink transition-colors duration-300">Ana Sayfa</a>
+
+            <!-- Mega Menu trigger -->
+            <div class="relative group" onmouseenter="showMegaMenu()" onmouseleave="hideMegaMenu()">
+              <button class="font-semibold text-black hover:text-primary-pink transition-colors duration-300 flex items-center">
+                Çözümlerimiz <i class="fas fa-chevron-down ml-1 text-xs"></i>
+              </button>
+            </div>
+
+            <a href="../index.html#about" class="font-semibold text-black hover:text-primary-pink transition-colors duration-300">Hakkımızda</a>
+            <a href="../index.html#contact" class="font-semibold text-black hover:text-primary-pink transition-colors duration-300">İletişim</a>
+            <a href="index.html" class="cta-button-pink text-white font-bold py-2 px-5 rounded-lg shadow-lg">Shop</a>
+        </nav>
+
+        <!-- Mobile hamburger -->
+        <button id="mobile-menu-button" class="md:hidden text-2xl text-black z-50">
+            <i class="fas fa-bars" id="menu-icon"></i>
+        </button>
+
+        <!-- Full-width Mega Menu (inside header, but outside <nav>) -->
+        <div id="mega-menu-wrapper" class="mega-menu-wrapper top-full"
+             onmouseenter="showMegaMenu()" onmouseleave="hideMegaMenu()">
+          <div class="mega-menu">
+            <div class="mega-menu-container">
+              <!-- Mobilite Column -->
+              <div class="mega-menu-column">
+                <h3><i class="fas fa-car-side mr-2"></i> Mobilite</h3>
+                <ul>
+                    <li><a href="energy/energy.html"><i class="fas fa-bolt"></i> Enerji Çözümleri</a></li>
+                    <li><a href="lvkon/lvkon.html"><i class="fas fa-cogs"></i> Güç Aktarma Sistemleri</a></li>
+                    <li><a href="#"><i class="fas fa-bicycle"></i> E-Bisiklet Dönüşüm Kitleri</a></li>
+                </ul>
+              </div>
+
+              <!-- Mühendislik Column -->
+              <div class="mega-menu-column">
+                <h3><i class="fas fa-cogs mr-2"></i> Mühendislik</h3>
+                <ul>
+                  <li>
+                    <a href="engineering/engineering.html"><i class="fas fa-wrench"></i> Mühendislik Çözümleri</a>
+                    <ul class="submenu">
+                      <li><a href="engineering/engineering.html">Sistem Mühendisliği & Mimari</a></li>
+                      <li><a href="engineering/engineering.html">Gömülü Sistemler</a></li>
+                    </ul>
+                  </li>
+                  <li><a href="engineering/engineering.html"><i class="fas fa-vial"></i> Test & Doğrulama (V&V)</a></li>
+                  <li><a href="engineering/engineering.html"><i class="fas fa-chart-line"></i> Stratejik Danışmanlık</a></li>
+                  <li><a href="engineering/engineering.html"><i class="fas fa-industry"></i> Prototip ve Üretim</a></li>
+                </ul>
+              </div>
+
+              <!-- Eğitim Column -->
+              <div class="mega-menu-column">
+                <h3><i class="fas fa-graduation-cap mr-2"></i> Eğitim</h3>
+                <ul>
+                  <li><a href="ooreneo.com"><i class="fas fa-robot"></i> oOreNEO | FeTeMM ve Robotik</a></li>
+                  <li><a href="#"><i class="fas fa-book-open"></i> sureNEO | Profesyonel Eğitimler</a></li>
+                </ul>
+              </div>
+
+              <!-- Yazılım Araçları Column -->
+              <div class="mega-menu-column">
+                <h3><i class="fas fa-laptop-code mr-2"></i> Yazılım Araçları</h3>
+                <ul>
+                  <li>
+                    <a href="wshare/wondershare.html"><i class="fas fa-puzzle-piece"></i> Wondershare</a>
+                    <ul class="submenu">
+                      <li><a href="wshare/wondershare.html">PDF Çözümleri</a></li>
+                      <li><a href="wshare/wondershare.html">Video Yaratıcılığı</a></li>
+                      <li><a href="wshare/wondershare.html">Yardımcı Programlar</a></li>
+                      <li><a href="wshare/wondershare.html">Şema ve Grafikler</a></li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+
+            </div>
+          </div>
+        </div>
+    </header>
+
+    <nav id="mobile-menu" class="fixed top-0 left-0 w-full h-full bg-primary-blue transform -translate-x-full transition-transform duration-300 z-40 p-6 md:hidden">
+        <div class="flex justify-end mb-4">
+            <button id="mobile-close-button" class="text-white text-3xl">&times;</button>
+        </div>
+        <div class="flex flex-col space-y-4 text-center text-white">
+            <a href="../index.html#home" class="mobile-nav-link text-2xl font-semibold hover:text-primary-pink transition-colors">Ana Sayfa</a>
+            
+                    <div class="relative">
+                <button onclick="toggleMobileDropdown('cozumler-dropdown')" class="mobile-nav-link text-2xl font-semibold hover:text-primary-pink transition-colors flex items-center justify-center w-full" data-toggle="dropdown">
+                    Çözümlerimiz <i class="fas fa-chevron-down ml-2 text-sm"></i>
+                </button>
+                <div id="cozumler-dropdown" class="mobile-dropdown-content mt-2 text-left">
+                    <div class="pl-4">
+                        <h4 class="font-bold text-lg text-primary-pink">Mobilite</h4>
+                        <a href="#" class="block hover:text-primary-pink">Enerji Çözümleri</a>
+                        <a href="#" class="block hover:text-primary-pink">Güç Aktarma Sistemleri</a>
+                        <a href="#" class="block hover:text-primary-pink">E-Bisiklet Dönüşüm Kitleri</a>
+                    </div>
+                    <div class="mt-4 pl-4">
+                        <h4 class="font-bold text-lg text-primary-pink">Mühendislik</h4>
+                        <a href="#" class="block hover:text-primary-pink">Mühendislik Çözümleri</a>
+                        <a href="#" class="block hover:text-primary-pink">Test & Doğrulama (V&V)</a>
+                        <a href="#" class="block hover:text-primary-pink">Stratejik Danışmanlık</a>
+                        <a href="#" class="block hover:text-primary-pink">Prototip ve Üretim</a>
+                    </div>
+                    <div class="mt-4 pl-4">
+                        <h4 class="font-bold text-lg text-primary-pink">Eğitim</h4>
+                        <a href="#" class="block hover:text-primary-pink">oOreNEO | FeTeMM ve Robotik</a>
+                        <a href="#" class="block hover:text-primary-pink">sureNEO | Profesyonel Eğitimler</a>
+                    </div>
+                    <div class="mt-4 pl-4">
+                        <h4 class="font-bold text-lg text-primary-pink">Yazılım Araçları</h4>
+                        <a href="#" class="block hover:text-primary-pink">Wondershare</a>
+                    </div>
+                </div>
+            </div>
+    
+            <a href="../index.html#about" class="mobile-nav-link text-2xl font-semibold hover:text-primary-pink transition-colors">Hakkımızda</a>
+            <a href="../index.html#contact" class="mobile-nav-link text-2xl font-semibold hover:text-primary-pink transition-colors">İletişim</a>
+            <a href="index.html" class="mobile-nav-link cta-button-pink text-white font-bold py-3 px-8 rounded-lg shadow-lg">Shop</a>
+        </div>
+    </nav>
+    
+
+
+    <main>
+        <!-- Hero Section -->
+        <section class="relative py-20 md:py-32 bg-white">
+            <div class="swoosh-bg"></div>
+            <div class="container mx-auto px-6 text-center">
+                <h1 class="text-4xl md:text-6xl font-bold text-gray-900 leading-tight">
+                    Lityum İyon Batarya <span class="text-primary-blue">Onarım ve Yenileştirme</span>
+                </h1>
+                <p class="mt-6 text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
+                    Yüksek maliyetli yeni batarya alımlarına ve uzun bekleme sürelerine son. Mevcut Li-ion bataryalarınızın ömrünü uzatarak operasyonel verimliliğinizi ve sürdürülebilirliğinizi artırıyoruz.
+                </p>
+                <a href="#contact" class="mt-10 inline-block cta-button-pink text-white font-bold py-4 px-10 rounded-lg shadow-lg hover:bg-primary-pink transition-transform transform hover:scale-105">
+                    Teklif Alın
+                </a>
+            </div>
+        </section>
+
+        <!-- The Problem Section -->
+        <section class="py-16 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="flex flex-col md:flex-row items-center gap-12">
+                    <div class="md:w-1/2">
+                        <img src="https://placehold.co/600x400/e2e8f0/334155?text=Batarya+Analizi" alt="Bir teknisyenin lityum iyon bataryayı analiz etmesi" class="rounded-xl shadow-2xl w-full">
+                    </div>
+                    <div class="md:w-1/2">
+                        <span class="text-primary-blue font-semibold uppercase">Sorun</span>
+                        <h2 class="text-3xl font-bold text-gray-900 mt-2">Pahalı Değişimler ve Uzun Süreçler</h2>
+                        <p class="mt-4 text-gray-600">
+                            Endüstriyel araçlar, mobil robotlar veya enerji depolama sistemlerindeki yüksek performanslı lityum iyon bataryalar, operasyonların kalbidir. Ancak bu bataryaların arızalanması veya ömrünü tamamlaması durumunda yeni bir batarya satın almak oldukça maliyetlidir.
+                        </p>
+                        <ul class="mt-6 space-y-4">
+                            <li class="flex items-start">
+                                <svg class="h-6 w-6 text-primary-pink mr-3 flex-shrink-0 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                <span><strong class="font-semibold">Yüksek Yatırım Maliyetleri:</strong> Yeni bir batarya, bütçenizi ciddi şekilde zorlayabilir.</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="h-6 w-6 text-primary-pink mr-3 flex-shrink-0 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                <span><strong class="font-semibold">Operasyonel Kesintiler:</strong> Uzun tedarik ve teslimat süreleri, işlerinizin aksamasına neden olur.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Our Solution Section -->
+        <section class="py-16 bg-gray-50">
+            <div class="container mx-auto px-6 text-center">
+                <span class="text-primary-blue font-semibold uppercase">biz beeNEO Çözümü</span>
+                <h2 class="text-3xl font-bold text-gray-900 mt-2">Onarım ve Yenileştirme: Akıllı ve Sürdürülebilir Alternatif</h2>
+                <p class="mt-4 text-gray-600 max-w-3xl mx-auto">
+                    biz beeNEO olarak, yeni batarya alımına güçlü bir alternatif sunuyoruz: Profesyonel onarım ve yenileştirme (refurbishment). Sadece arızalı hücreleri veya elektronik bileşenleri değiştiriyoruz. Bu işlemde yalnızca lider markaların en yeni ve yüksek kaliteli hücrelerini kullanarak bataryanızı orijinal performansına, hatta üzerine taşıyoruz.
+                </p>
+            </div>
+            
+            <!-- Process Steps -->
+            <div class="container mx-auto px-6 mt-16">
+                <div class="relative">
+                    <!-- The connecting line -->
+                    <div class="hidden md:block absolute top-1/2 left-0 w-full h-0.5 bg-blue-200" style="transform: translateY(-50%);"></div>
+                    
+                    <div class="grid md:grid-cols-4 gap-8 relative">
+                        <!-- Step 1 -->
+                        <div class="text-center">
+                            <div class="relative">
+                                <div class="mx-auto bg-primary-blue text-white rounded-full h-20 w-20 flex items-center justify-center text-2xl font-bold border-4 border-white shadow-lg">1</div>
+                            </div>
+                            <h3 class="text-xl font-bold mt-4">Analiz ve Teklif</h3>
+                            <p class="mt-2 text-gray-600">Bataryanızı bize ulaştırdıktan sonra uzman ekibimiz tarafından yapılan detaylı analiz sonucunda size özel bir onarım teklifi sunuyoruz.</p>
+                        </div>
+                        <!-- Step 2 -->
+                        <div class="text-center">
+                             <div class="relative">
+                                <div class="mx-auto bg-primary-blue text-white rounded-full h-20 w-20 flex items-center justify-center text-2xl font-bold border-4 border-white shadow-lg">2</div>
+                            </div>
+                            <h3 class="text-xl font-bold mt-4">Hücre Değişimi</h3>
+                            <p class="mt-2 text-gray-600">Onayınızın ardından, eski veya arızalı hücreleri söküyor và en yüksek kalitede, taze üretim markalı hücrelerle değiştiriyoruz.</p>
+                        </div>
+                        <!-- Step 3 -->
+                        <div class="text-center">
+                            <div class="relative">
+                                <div class="mx-auto bg-primary-blue text-white rounded-full h-20 w-20 flex items-center justify-center text-2xl font-bold border-4 border-white shadow-lg">3</div>
+                            </div>
+                            <h3 class="text-xl font-bold mt-4">Yazılım ve BMS Kontrolü</h3>
+                            <p class="mt-2 text-gray-600">Batarya Yönetim Sistemi'ni (BMS) yeni hücrelere göre güncelliyor và gerekirse programlıyoruz, böylece tam uyum và güvenlik sağlıyoruz.</p>
+                        </div>
+                        <!-- Step 4 -->
+                        <div class="text-center">
+                            <div class="relative">
+                                <div class="mx-auto bg-primary-blue text-white rounded-full h-20 w-20 flex items-center justify-center text-2xl font-bold border-4 border-white shadow-lg">4</div>
+                            </div>
+                            <h3 class="text-xl font-bold mt-4">Test và Teslimat</h3>
+                            <p class="mt-2 text-gray-600">Son olarak, yenilenmiş bataryanızı kapsamlı güvenlik và performans testlerinden geçirerek güvenle size geri gönderiyoruz.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Benefits Section -->
+        <section class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-900">Avantajlarınız</h2>
+                    <p class="mt-4 text-gray-600 max-w-2xl mx-auto">Batarya onarım và yenileştirme hizmetimizle sadece maliyetlerinizi düşürmekle kalmaz, aynı zamanda birçok ek avantaj elde edersiniz.</p>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="flex items-start space-x-4">
+                        <div class="bg-blue-100 p-3 rounded-full"><svg class="h-6 w-6 text-primary-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v.01" /></svg></div>
+                        <div>
+                            <h4 class="font-bold text-lg">Maliyet Tasarrufu</h4>
+                            <p class="text-gray-600 mt-1">Yeni bir batarya maliyetine kıyasla %70'e varan oranda tasarruf sağlayın.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-4">
+                        <div class="bg-blue-100 p-3 rounded-full"><svg class="h-6 w-6 text-primary-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg></div>
+                        <div>
+                            <h4 class="font-bold text-lg">Hızlı Çözüm</h4>
+                            <p class="text-gray-600 mt-1">Uzun tedarik süreleri olmadan operasyonlarınıza hızla geri dönün.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-4">
+                        <div class="bg-blue-100 p-3 rounded-full"><svg class="h-6 w-6 text-primary-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></div>
+                        <div>
+                            <h4 class="font-bold text-lg">Sürdürülebilirlik</h4>
+                            <p class="text-gray-600 mt-1">Değerli kaynakları koruyun, atığı azaltın ve karbon ayak izinizi düşürün.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-4">
+                        <div class="bg-blue-100 p-3 rounded-full"><svg class="h-6 w-6 text-primary-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg></div>
+                        <div>
+                            <h4 class="font-bold text-lg">Garanti và Güvenlik</h4>
+                            <p class="text-gray-600 mt-1">Tüm onarım işlemleri, güvenlik standartlarına uygun và garantimiz altındadır.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Scope Section -->
+        <section class="py-16 bg-gray-50">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-900">Geniş Kapsamlı Onarım Hizmeti</h2>
+                    <p class="mt-4 text-gray-600 max-w-2xl mx-auto">Uzmanlığımız sadece tek bir alanla sınırlı değil. Farklı sektörlerden và markalardan lityum iyon bataryalar için profesyonel onarım và yenileştirme hizmeti sunuyoruz.</p>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- E-Mobility -->
+                    <div class="bg-white p-6 rounded-lg shadow-md text-center transition-transform transform hover:-translate-y-2">
+                         <div class="mx-auto bg-blue-100 rounded-full h-16 w-16 flex items-center justify-center mb-4">
+                            <svg class="h-8 w-8 text-primary-blue" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+                            </svg>
+                         </div>
+                        <h4 class="font-bold text-lg">E-Mobilite Araçları</h4>
+                        <p class="text-gray-600 mt-1 text-sm">E-bike, e-scooter và diğer kişisel mobilite cihazlarınızın bataryaları.</p>
+                    </div>
+                    <!-- Power Tools -->
+                    <div class="bg-white p-6 rounded-lg shadow-md text-center transition-transform transform hover:-translate-y-2">
+                         <div class="mx-auto bg-blue-100 rounded-full h-16 w-16 flex items-center justify-center mb-4">
+                            <svg class="h-8 w-8 text-primary-blue" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.658-.463 1.243-1.117 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.117 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                            </svg>
+                         </div>
+                        <h4 class="font-bold text-lg">Profesyonel Aletler</h4>
+                        <p class="text-gray-600 mt-1 text-sm">Matkap, testere gibi kablosuz elektrikli el aletlerinizin bataryaları.</p>
+                    </div>
+                    <!-- Garden Tools -->
+                    <div class="bg-white p-6 rounded-lg shadow-md text-center transition-transform transform hover:-translate-y-2">
+                        <div class="mx-auto bg-blue-100 rounded-full h-16 w-16 flex items-center justify-center mb-4">
+                            <svg class="h-8 w-8 text-primary-blue" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+                            </svg>
+                         </div>
+                        <h4 class="font-bold text-lg">Bahçe Ekipmanları</h4>
+                        <p class="text-gray-600 mt-1 text-sm">Çim biçme makineleri, tırpanlar và diğer bahçe aletlerinizin bataryaları.</p>
+                    </div>
+                    <!-- Other Devices -->
+                    <div class="bg-white p-6 rounded-lg shadow-md text-center transition-transform transform hover:-translate-y-2">
+                        <div class="mx-auto bg-blue-100 rounded-full h-16 w-16 flex items-center justify-center mb-4">
+                           <svg class="h-8 w-8 text-primary-blue" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                         </div>
+                        <h4 class="font-bold text-lg">Ve Daha Fazlası</h4>
+                        <p class="text-gray-600 mt-1 text-sm">Medikal cihazlar, robot süpürgeler và özel üretim batarya paketleri.</p>
+                    </div>
+                </div>
+                <div class="mt-12 text-center bg-white p-8 rounded-lg shadow-md border-l-4 border-primary-blue">
+                    <h3 class="font-bold text-xl text-gray-800 mb-2">Tüm Batarya Teknolojilerinde Uzmanız</h3>
+                    <p class="text-gray-700 text-lg">
+                        Geniş teknoloji yelpazesiyle çalışıyoruz. Lityum İyon (Li-Ion) và Lityum Demir Fosfat (LiFePo4) teknolojilerine sahip tüm bataryalar için profesyonel onarım và yenileştirme hizmeti sunuyoruz. Bataryanızın markası veya modeli ne olursa olsun, doğru çözüm için <a href="#contact" class="text-primary-blue font-semibold hover:underline">bizimle iletişime geçin</a>.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section id="contact" class="bg-primary-blue">
+            <div class="container mx-auto px-6 py-16 text-center">
+                <h2 class="text-3xl font-bold text-white">Bataryalarınıza İkinci Bir Şans Verin</h2>
+                <p class="mt-4 text-blue-100 max-w-2xl mx-auto">
+                    Batarya sorunlarınız için uzman ekibimizle görüşün. Size en uygun, en ekonomik ve en sürdürülebilir çözümü sunalım.
+                </p>
+                <p class="mt-8 text-white text-xl font-bold">
+                    <a href="mailto:info@beeneo.com" class="hover:underline text-white">info@beeneo.com</a>
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-primary-blue text-white py-8">
+        <div class="container mx-auto px-6 text-center">
+            <p>&copy; 2025 beeNEO | Tüm Hakları Saklıdır.</p>
+            <div class="mt-4 space-x-4">
+                <a href="#" class="hover:text-primary-pink transition-colors"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#" class="hover:text-primary-pink transition-colors"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="hover:text-primary-pink transition-colors"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mega Menu functionality
+   // Mega Menu functionality
+   let megaMenuTimeout;
+    function showMegaMenu() {
+        clearTimeout(megaMenuTimeout);
+        const megaMenuWrapper = document.getElementById('mega-menu-wrapper');
+        if (!megaMenuWrapper) return;
+        megaMenuWrapper.classList.add('active');
+    }
+    function hideMegaMenu() {
+        megaMenuTimeout = setTimeout(() => {
+            const megaMenuWrapper = document.getElementById('mega-menu-wrapper');
+            if (!megaMenuWrapper) return;
+            megaMenuWrapper.classList.remove('active');
+        }, 200);
+    }
+
+    // Keep mega menu open when hovering over it
+    document.getElementById('mega-menu-wrapper')?.addEventListener('mouseenter', () => {
+        clearTimeout(megaMenuTimeout);
+    });
+    document.getElementById('mega-menu-wrapper')?.addEventListener('mouseleave', () => {
+        hideMegaMenu();
+    });
+
+    // Mobile helpers
+    function toggleMobileDropdown(id) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.style.display = (el.style.display === 'block') ? 'none' : 'block';
+    }
+    
+    function closeMobileMenu() {
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenu?.classList.remove('translate-x-0');
+        mobileMenu?.classList.add('-translate-x-full');
+        document.body.classList.remove('menu-open');
+    }
+
+    // Mobile menu functionality
+    document.addEventListener('DOMContentLoaded', () => {
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const closeBtn = document.getElementById('mobile-close-button');
+        const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+
+        mobileMenuButton?.addEventListener('click', () => {
+    mobileMenu?.classList.toggle('translate-x-0');
+    mobileMenu?.classList.toggle('-translate-x-full');
+    document.body.classList.toggle('menu-open');
+});
+
+        closeBtn?.addEventListener('click', closeMobileMenu);
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                if (link.dataset.toggle === 'dropdown') {
+                    e.preventDefault();
+                    return;
+                }
+                closeMobileMenu();
+            });
+        });
+    });
+
+    
+
+
+    </script>
+</body>
+</html>

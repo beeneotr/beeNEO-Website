@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>beeNEO | Elektrikli Araç Şarj İstasyonu Kurulum ve Belgelendirme</title>
+    <!-- Tailwind CSS Yüklemesi -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        // beeNEO Renk Paleti (Logo renklerine esinlenerek)
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        // Koyu Mavi - Logo "NEO" rengi
+                        'bee-primary': '#003366',
+                        // Kırmızı - Logo "bee" rengi
+                        'bee-red': '#e2001a',
+                        // Orta Mavi - Vurgu ve ara ton
+                        'bee-medium': '#1E5A8F',
+                        // Açık Arka Plan - Mavi tonuna uyumlu
+                        'bee-light': '#F0F8FF',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 0.5s ease-out',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                },
+            }
+        }
+    </script>
+    <style>
+        /* Genel Stiller ve Animasyonlar */
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 51, 102, 0.2);
+        }
+        .text-shadow {
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Scroll daha yumuşak */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Navbar scroll için */
+        .scrolled {
+            background-color: rgba(240, 248, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Mobil menü animasyonu */
+        .mobile-menu {
+            transition: all 0.3s ease-in-out;
+        }
+        
+        /* Logo container */
+        .logo-container {
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+        }
+        
+        .logo-img {
+            max-height: 40px;
+            max-width: 120px;
+            filter: grayscale(100%);
+            opacity: 0.7;
+            transition: all 0.3s ease;
+        }
+        
+        .logo-img:hover {
+            filter: grayscale(0%);
+            opacity: 1;
+            transform: scale(1.05);
+        }
+        
+        /* Yükleme animasyonu (form için) */
+        .loading-dots:after {
+            content: '';
+            animation: dots 1.5s steps(5, end) infinite;
+        }
+        
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60%, 100% { content: '...'; }
+        }
+    </style>
+</head>
+<body class="font-sans bg-bee-light text-slate-800">
+
+    <!-- Navbar -->
+    <header id="navbar" class="bg-white shadow-md sticky top-0 z-50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <a href="#" class="flex items-center">
+                <img src="https://beeneo.com/images/beeneologo.png" alt="beeNEO Logo" class="h-10">
+            </a>
+            
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex space-x-8 font-medium">
+                <a href="#hizmetler" class="text-slate-700 hover:text-bee-medium transition duration-300 flex items-center">
+                    <i class="fas fa-bolt mr-2 text-bee-medium"></i> Hizmetlerimiz
+                </a>
+                <a href="#surecler" class="text-slate-700 hover:text-bee-medium transition duration-300 flex items-center">
+                    <i class="fas fa-file-certificate mr-2 text-bee-medium"></i> Belgelendirme
+                </a>
+                <a href="#nedenbiz" class="text-slate-700 hover:text-bee-medium transition duration-300 flex items-center">
+                    <i class="fas fa-star mr-2 text-bee-medium"></i> Neden beeNEO?
+                </a>
+                <a href="#referanslar" class="text-slate-700 hover:text-bee-medium transition duration-300 flex items-center">
+                    <i class="fas fa-building mr-2 text-bee-medium"></i> Referanslar
+                </a>
+            </nav>
+            <div class="hidden md:flex items-center space-x-4">
+                <a href="tel:+905443741391" class="text-slate-700 hover:text-bee-medium transition duration-300 flex items-center">
+                    <i class="fas fa-phone mr-2"></i> +90 544 374 13 91
+                </a>
+                <a href="#iletisim" class="px-4 py-2 bg-bee-primary text-white rounded-lg shadow-lg hover:bg-bee-medium transition duration-300 font-semibold">Teklif Alın</a>
+            </div>
+            
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-button" class="md:hidden text-bee-primary">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="mobile-menu hidden md:hidden bg-white py-4 px-6 border-t border-gray-200">
+            <div class="flex flex-col space-y-4">
+                <a href="#hizmetler" class="text-slate-700 hover:text-bee-medium transition duration-300 flex items-center">
+                    <i class="fas fa-bolt mr-2 text-bee-medium"></i> Hizmetlerimiz
+                </a>
+                <a href="#surecler" class="text-slate-700 hover:text-bee-medium transition duration-300 flex items-center">
+                    <i class="fas fa-file-certificate mr-2 text-bee-medium"></i> Belgelendirme
+                </a>
+                <a href="#nedenbiz" class="text-slate-700 hover:text-bee-medium transition duration-300 flex items-center">
+                    <i class="fas fa-star mr-2 text-bee-medium"></i> Neden beeNEO?
+                </a>
+                <a href="#referanslar" class="text-slate-700 hover:text-bee-medium transition duration-300 flex items-center">
+                    <i class="fas fa-building mr-2 text-bee-medium"></i> Referanslar
+                </a>
+                <a href="tel:+905443741391" class="text-slate-700 hover:text-bee-medium transition duration-300 flex items-center">
+                    <i class="fas fa-phone mr-2"></i> +90 544 374 13 91
+                </a>
+                <a href="#iletisim" class="px-4 py-2 bg-bee-primary text-white rounded-lg shadow-lg hover:bg-bee-medium transition duration-300 font-semibold text-center">Teklif Alın</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-br from-bee-light to-white py-20 md:py-32 relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-1/3 h-full bg-bee-medium/5 -skew-x-12 transform origin-top-right"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center animate-fade-in-up">
+                <h1 class="text-5xl md:text-6xl font-extrabold mb-4 leading-tight text-bee-primary text-shadow">
+                    Geleceğin Şarj Ağı, <span class="text-bee-red">Bugünün Güvenliği</span>
+                </h1>
+                <p class="text-xl md:text-2xl text-slate-600 mb-10 max-w-3xl mx-auto">
+                    beeNEO olarak, elektrikli araç şarj istasyonu (EŞİ) yatırımlarınızı <strong>uluslararası standartlarda</strong> hayata geçiriyor, <strong>TS 13912</strong> ve tüm yasal süreçlerde tam uyumluluğu garanti ediyoruz.
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <a href="#iletisim" class="px-8 py-4 text-xl bg-bee-red text-white rounded-full shadow-xl hover:bg-bee-primary transition duration-500 transform hover:scale-105 font-bold inline-flex items-center justify-center space-x-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M11 15.0003h-4v-10h10v4h-6v6.0003z"/>
+                            <path d="M17 19h-12c-1.103 0-2-.897-2-2v-12c0-1.103.897-2 2-2h12c1.103 0 2 .897 2 2v12c0 1.103-.897 2-2 2z"/>
+                            <path d="M19 15.0003v-4h-2v4h-4v2h4v4h2v-4h4v-2z"/>
+                        </svg>
+                        <span>Hemen Danışmanlık Alın</span>
+                    </a>
+                    <a href="#nedenbiz" class="px-8 py-4 text-xl border-2 border-bee-primary text-bee-primary rounded-full hover:bg-bee-primary hover:text-white transition duration-500 transform hover:scale-105 font-bold inline-flex items-center justify-center space-x-2">
+                        <i class="fas fa-play-circle"></i>
+                        <span>Neden beeNEO?</span>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- İstatistikler -->
+            <div class="mt-20 grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                <div class="bg-white p-6 rounded-xl shadow-lg border border-bee-medium/20 animate-fade-in-up card-hover" style="animation-delay: 0.2s">
+                    <div class="text-4xl font-bold text-bee-red mb-2">100+</div>
+                    <div class="text-slate-700">Tamamlanan Proje</div>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg border border-bee-medium/20 animate-fade-in-up card-hover" style="animation-delay: 0.4s">
+                    <div class="text-4xl font-bold text-bee-red mb-2">20+</div>
+                    <div class="text-slate-700">Ülke</div>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg border border-bee-medium/20 animate-fade-in-up card-hover" style="animation-delay: 0.6s">
+                    <div class="text-4xl font-bold text-bee-red mb-2">100000+</div>
+                    <div class="text-slate-700">Danışmanlık Saati</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hizmetlerimiz Section -->
+    <section id="hizmetler" class="py-16 md:py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl font-bold text-center mb-12 text-bee-primary border-b-4 border-bee-red inline-block pb-1">
+                <i class="fas fa-bolt mr-2"></i>Hizmetlerimiz
+            </h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Hizmet 1 -->
+                <div class="bg-white p-6 rounded-xl shadow-lg border border-bee-medium/20 transition duration-500 card-hover">
+                    <div class="text-4xl text-bee-red mb-4 text-center"><i class="fas fa-drafting-compass"></i></div>
+                    <h3 class="text-xl font-semibold mb-3 text-bee-primary text-center">Projelendirme</h3>
+                    <p class="text-slate-600 text-center">TS 13912 standardına uygun şekilde elektrikli araç şarj istasyonu projelerinin hazırlanması.</p>
+                </div>
+                
+                <!-- Hizmet 2 -->
+                <div class="bg-white p-6 rounded-xl shadow-lg border border-bee-medium/20 transition duration-500 card-hover">
+                    <div class="text-4xl text-bee-red mb-4 text-center"><i class="fas fa-hard-hat"></i></div>
+                    <h3 class="text-xl font-semibold mb-3 text-bee-primary text-center">Kurulum</h3>
+                    <p class="text-slate-600 text-center">Yüksek kaliteli ekipmanlarla şarj istasyonu kurulumu ve devreye alma işlemleri.</p>
+                </div>
+                
+                <!-- Hizmet 3 -->
+                <div class="bg-white p-6 rounded-xl shadow-lg border border-bee-medium/20 transition duration-500 card-hover">
+                    <div class="text-4xl text-bee-red mb-4 text-center"><i class="fas fa-file-contract"></i></div>
+                    <h3 class="text-xl font-semibold mb-3 text-bee-primary text-center">Belgelendirme</h3>
+                    <p class="text-slate-600 text-center">TSE Hizmet Yeterlilik Belgesi (HYB) ve EPDK lisansı için gerekli tüm belgelendirme süreçleri.</p>
+                </div>
+                
+                <!-- Hizmet 4 -->
+                <div class="bg-white p-6 rounded-xl shadow-lg border border-bee-medium/20 transition duration-500 card-hover">
+                    <div class="text-4xl text-bee-red mb-4 text-center"><i class="fas fa-headset"></i></div>
+                    <h3 class="text-xl font-semibold mb-3 text-bee-primary text-center">Danışmanlık</h3>
+                    <p class="text-slate-600 text-center">Elektrikli araç şarj altyapısı yatırımları için kapsamlı danışmanlık hizmetleri.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Neden beeNEO? Section -->
+    <section id="nedenbiz" class="py-16 md:py-24 bg-bee-light">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl font-bold text-center mb-12 text-bee-primary border-b-4 border-bee-red inline-block pb-1">
+                <i class="fas fa-star mr-2"></i>Neden beeNEO?
+            </h2>
+            <div class="grid md:grid-cols-3 gap-10">
+                <div class="bg-white p-6 rounded-xl shadow-lg border border-bee-medium/20 transition duration-500 card-hover">
+                    <div class="text-5xl text-bee-red mb-4 text-center"><i class="fas fa-microchip"></i></div>
+                    <h3 class="text-2xl font-semibold mb-3 text-bee-primary text-center">En Son Teknoloji</h3>
+                    <p class="text-slate-600">Sektördeki en yeni ve en verimli şarj teknolojilerini projelerinize entegre ediyoruz.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg border border-bee-medium/20 transition duration-500 card-hover">
+                    <div class="text-5xl text-bee-red mb-4 text-center"><i class="fas fa-globe-europe"></i></div>
+                    <h3 class="text-2xl font-semibold mb-3 text-bee-primary text-center">Global Deneyim</h3>
+                    <p class="text-slate-600">Uluslararası projelerde edindiğimiz deneyimle, yerel standartları global protokollerle birleştiriyoruz.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg border border-bee-medium/20 transition duration-500 card-hover">
+                    <div class="text-5xl text-bee-red mb-4 text-center"><i class="fas fa-shield-alt"></i></div>
+                    <h3 class="text-2xl font-semibold mb-3 text-bee-primary text-center">Uyumluluk Garantisi</h3>
+                    <p class="text-slate-600">Karmaşık belgelendirme süreçlerini yöneterek projenizin yasal risklerini minimize ediyoruz.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Belgelendirme Süreçleri Section -->
+    <section id="surecler" class="py-16 md:py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl font-bold text-center mb-12 text-bee-primary border-b-4 border-bee-red inline-block pb-1">
+                <i class="fas fa-file-certificate mr-2"></i>TS 13912 ve Belgelendirme Süreci
+            </h2>
+            <p class="text-center text-lg text-slate-600 max-w-4xl mx-auto mb-10">
+                Türkiye'de şarj istasyonu kurmanın anahtarı, TS 13912 uyumluluğu ve EPDK lisanslama süreçleridir.
+            </p>
+            <div class="space-y-12">
+                <div class="md:flex md:space-x-12 items-center">
+                    <div class="md:w-1/3 flex-shrink-0 mb-6 md:mb-0">
+                        <span class="text-6xl font-extrabold text-bee-red block mb-2">1.</span>
+                        <h3 class="text-3xl font-bold text-bee-primary">Teknik Uygunluk</h3>
+                    </div>
+                    <div class="md:w-2/3 bg-white p-6 rounded-xl shadow-md border-l-4 border-bee-red">
+                        <p class="text-slate-600">Şarj istasyonlarının TS 13912 standardına uygun tasarlanması ve test edilmesi.</p>
+                    </div>
+                </div>
+                <div class="md:flex md:space-x-12 items-center md:flex-row-reverse">
+                    <div class="md:w-1/3 flex-shrink-0 mb-6 md:mb-0">
+                        <span class="text-6xl font-extrabold text-bee-red block mb-2">2.</span>
+                        <h3 class="text-3xl font-bold text-bee-primary">TSE HYB Belgesi</h3>
+                    </div>
+                    <div class="md:w-2/3 bg-white p-6 rounded-xl shadow-md border-l-4 border-bee-red">
+                        <p class="text-slate-600">Hizmet Yeterlilik Belgesi başvurusu ve denetim süreci.</p>
+                    </div>
+                </div>
+                <div class="md:flex md:space-x-12 items-center">
+                    <div class="md:w-1/3 flex-shrink-0 mb-6 md:mb-0">
+                        <span class="text-6xl font-extrabold text-bee-red block mb-2">3.</span>
+                        <h3 class="text-3xl font-bold text-bee-primary">EPDK & Ruhsat</h3>
+                    </div>
+                    <div class="md:w-2/3 bg-white p-6 rounded-xl shadow-md border-l-4 border-bee-red">
+                        <p class="text-slate-600">Şarj Ağı İşletmecisi Lisansı ve belediye ruhsat başvuruları.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Referanslar Section -->
+    <section id="referanslar" class="py-16 md:py-24 bg-bee-light">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-4xl font-bold mb-12 text-bee-primary border-b-4 border-bee-red inline-block pb-1">
+                <i class="fas fa-building mr-2"></i>Referans Müşterilerimiz
+            </h2>
+            <p class="text-xl text-slate-600 max-w-4xl mx-auto mb-10">
+                Lider firmalarla çalışarak projelerinizi güvence altına alıyoruz.
+            </p>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 sm:gap-8 items-center justify-items-center">
+                <div class="logo-container">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/BMW.svg/2560px-BMW.svg.png" alt="BMW" class="logo-img">
+                </div>
+                <div class="logo-container">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Mercedes-Logo.svg/2048px-Mercedes-Logo.svg.png" alt="Mercedes-Benz" class="logo-img">
+                </div>
+                <div class="logo-container">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Volkswagen_logo_2019.svg/2048px-Volkswagen_logo_2019.svg.png" alt="Volkswagen" class="logo-img">
+                </div>
+                <div class="logo-container">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/MAN_logo.svg/2560px-MAN_logo.svg.png" alt="MAN" class="logo-img">
+                </div>
+                <div class="logo-container">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Mobis_logo.png/800px-Mobis_logo.png" alt="Mobis" class="logo-img">
+                </div>
+                <div class="logo-container">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Hanon_Systems_logo.svg/1280px-Hanon_Systems_logo.svg.png" alt="Hanon" class="logo-img">
+                </div>
+                <div class="logo-container">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/HELLA_logo_2015.png/800px-HELLA_logo_2015.png" alt="Hella" class="logo-img">
+                </div>
+                <div class="logo-container">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Continental_logo.svg/2560px-Continental_logo.svg.png" alt="Continental" class="logo-img">
+                </div>
+                <div class="logo-container">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/BorgWarner_logo.svg/1280px-BorgWarner_logo.svg.png" alt="BorgWarner" class="logo-img">
+                </div>
+                <div class="logo-container">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Brusa_Logo.svg/1280px-Brusa_Logo.svg.png" alt="Brusa" class="logo-img">
+                </div>
+                <div class="logo-container">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Magna_International_Logo.svg/2560px-Magna_International_Logo.svg.png" alt="Magna" class="logo-img">
+                </div>
+                <div class="logo-container">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Joyson_Logo_2020.svg/1280px-Joyson_Logo_2020.svg.png" alt="Joyson" class="logo-img">
+                </div>
+                <div class="logo-container">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Webasto_Group_logo.svg/1280px-Webasto_Group_logo.svg.png" alt="Webasto" class="logo-img">
+                </div>
+                <div class="logo-container">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/ZF_Logo.svg/2560px-ZF_Logo.svg.png" alt="ZF" class="logo-img">
+                </div>
+                <div class="logo-container">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Vaillant_Logo_2019.svg/1280px-Vaillant_Logo_2019.svg.png" alt="Vaillant" class="logo-img">
+                </div>
+                <div class="logo-container">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Rheinmetall_Logo.svg/2560px-Rheinmetall_Logo.svg.png" alt="Rheinmetall" class="logo-img">
+                </div>
+                <div class="logo-container">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/ThyssenKrupp_logo_2019.svg/2560px-ThyssenKrupp_logo_2019.svg.png" alt="ThyssenKrupp" class="logo-img">
+                </div>
+                <div class="logo-container">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/The_Linde_Group_logo.svg/1280px-The_Linde_Group_logo.svg.png" alt="Linde" class="logo-img">
+                </div>
+                <div class="logo-container">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Diehl_Logo.svg/1280px-Diehl_Logo.svg.png" alt="Diehl" class="logo-img">
+                </div>
+                <div class="logo-container">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Liebherr_Group_logo.svg/2560px-Liebherr_Group_logo.svg.png" alt="Liebherr" class="logo-img">
+                </div>
+                <div class="logo-container">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Leoni_AG_Logo.svg/1280px-Leoni_AG_Logo.svg.png" alt="Leoni" class="logo-img">
+                </div>
+                <div class="logo-container">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Spheros_logo.svg/1280px-Spheros_logo.svg.png" alt="Spheros" class="logo-img">
+                </div>
+                <div class="logo-container">
+                    <div class="text-xl md:text-2xl font-bold text-bee-primary/70 hover:text-bee-red transition duration-300 transform hover:scale-105">Lvkon</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- İletişim Section -->
+    <section id="iletisim" class="py-20 md:py-28 bg-bee-primary">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-4xl font-bold mb-4 text-white">Yatırımınızı Güvenle Başlatın</h2>
+            <p class="text-xl text-bee-light mb-8">Uluslararası uzmanlığımızla projenizin engellerini aşın.</p>
+            
+            <div class="bg-white p-8 rounded-xl shadow-2xl">
+                <form id="contact-form" method="post" action="mailto:info@beeneo.com" enctype="text/plain">
+                    <input type="hidden" name="_subject" value="beeNEO Şarj İstasyonu Danışmanlığı İletişim Formu">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <input type="text" name="name" placeholder="Adınız Soyadınız" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-bee-medium focus:border-bee-medium">
+                        <input type="text" name="company" placeholder="Firma Adı" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-bee-medium focus:border-bee-medium">
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <input type="email" name="email" placeholder="E-posta Adresiniz" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-bee-medium focus:border-bee-medium">
+                        <input type="tel" name="phone" placeholder="Telefon Numaranız" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-bee-medium focus:border-bee-medium">
+                    </div>
+                    <textarea name="message" placeholder="Proje Detayları" required rows="4" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-bee-medium focus:border-bee-medium mb-6"></textarea>
+                    <button type="submit" class="w-full px-6 py-3 bg-bee-red text-white text-lg font-bold rounded-lg shadow-lg hover:bg-bee-primary transition duration-300">
+                        <span id="button-text">Görüşün</span>
+                        <span id="button-loading" class="hidden loading-dots">Gönderiliyor</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-800 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Şirket Bilgisi -->
+                <div class="md:col-span-2">
+                    <a href="#" class="flex items-center mb-4">
+                        <img src="https://beeneo.com/images/beeneologo.png" alt="beeNEO Logo" class="h-10">
+                    </a>
+                    <p class="text-gray-300 mb-4">Berrin Erden Neo Mühendislik Danışmanlık Gıda Sanayi Ve Ticaret Ltd. Şti.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-300 hover:text-bee-red transition duration-300">
+                            <i class="fab fa-linkedin text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-bee-red transition duration-300">
+                            <i class="fab fa-twitter text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-bee-red transition duration-300">
+                            <i class="fab fa-instagram text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Hızlı Bağlantılar -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4 text-bee-red">Hızlı Bağlantılar</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#hizmetler" class="text-gray-300 hover:text-white">Hizmetlerimiz</a></li>
+                        <li><a href="#surecler" class="text-gray-300 hover:text-white">Belgelendirme</a></li>
+                        <li><a href="#nedenbiz" class="text-gray-300 hover:text-white">Neden beeNEO?</a></li>
+                        <li><a href="#referanslar" class="text-gray-300 hover:text-white">Referanslar</a></li>
+                        <li><a href="#iletisim" class="text-gray-300 hover:text-white">İletişim</a></li>
+                    </ul>
+                </div>
+                
+                <!-- İletişim -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4 text-bee-red">İletişim</h3>
+                    <ul class="space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt text-bee-red mr-2 mt-1"></i>
+                            <span class="text-gray-300">MERKEZ: Güzeltepe Mh. Pembegül Sk. No:7/8 34680 Üsküdar / İstanbul</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt text-bee-red mr-2 mt-1"></i>
+                            <span class="text-gray-300">BİLİŞİM VADİSİ: Muallimköy Mh. Deniz Cd. No:143/13 2B Blok 411 41400 Gebze / Kocaeli</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-phone text-bee-red mr-2"></i>
+                            <a href="tel:+905443741391" class="text-gray-300 hover:text-white">+90 544 374 13 91</a>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-envelope text-bee-red mr-2"></i>
+                            <a href="mailto:info@beeneo.com" class="text-gray-300 hover:text-white">info@beeneo.com</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-sm text-gray-400">
+                &copy; 2025 beeNEO. Tüm Hakları Saklıdır.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Form işleme
+        document.getElementById('contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Mailto logic or backend simulation
+            alert('Form gönderildi!');
+            this.reset();
+        });
+        
+        // Mobil menü
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+            this.querySelector('i').classList.toggle('fa-bars');
+            this.querySelector('i').classList.toggle('fa-times');
+        });
+        
+        // Scroll navbar
+        window.addEventListener('scroll', () => {
+            document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+        });
+    </script>
+</body>
+</html>
+```
